@@ -1,4 +1,5 @@
 _**Note**: for the CPSC-362 Software Engineering course_
+![image_logo](https://github.com/user-attachments/assets/d97f2610-55f3-49cf-956a-66ddfaf1f27e)
 
 ---
 # Background
@@ -7,6 +8,7 @@ _**Scheduly**_ is a social media platform that relies heavily on events, calenda
 Take calling your friends as a prime example; it's normal for them to not reciprocate, and reasons of that vary with work, sleep, school, or others. No one knows how active their friends are, currently, and there's also confusion as to why they're not active at that time. Rhethorical question, but how do people know when to connect with someone at the right time?
 
 ---
+# Information
 \*\* = yet to fully implement outside of CPSC-362
 
 \* = extra credit
@@ -22,8 +24,8 @@ _**Scheduly**_ applies many features that benefit user experience.
    - ⬜ **Offline** - If the user is currently free but not using the app/phone.
    - 🟥 **Busy** - If the user is not using the app/phone during an event/work/school/appointment.
    - For text, the attending event name will hover over their profile. Formatted text depends on the type of event created (class/job/vacation/appointment/interview/sleeping).
-+ <ins>**\*Timezone Recalibration**</ins> is a base feature to include; for mutual friends who currently have school, work at a different state or country. Events for mutual friends using a different time zone will have appointment times recalibrated for the user's time zone.
-  - > _**Example**: If a friend has an appointment at 2:00pm Tuesday under Japan Standard Time (JST), that appointment is then recalibrated to 9:00pm Monday under Pacific Standard Time (PST)._
++ <ins>**\*Timezone Recalibration**</ins> is a base feature to include; for mutual friends who currently have school, work, or events at a different state or country. Events for mutual friends using a different time zone will have appointment times recalibrated for the user's time zone.
+  - > _**Example**: If a friend has an appointment at 2:00pm Tuesday under Japan Standard Time (JST), that appointment is then recalibrated to 9:00pm Monday under Pacific Standard Time (PST) for the user._
   - Daylight Savings Time is under consideration.
 + <ins>**\*\*Integration**</ins> is another feature that's helpful, especially LinkedIn for interviews and zoom meetings. Google Calendars will also have back-to-back connection, since _Scheduly_ and it can utilize and import calendars.
 
@@ -49,5 +51,11 @@ _**Scheduly**_ aims to support effective time management and productivity throug
 + <ins>**Indeed**</ins>
   - same reason as LinkedIn
 + and many more...
+
+## Methods
++ Research backend languages of famous social media platforms above
++ Mainly utilizing Python/C++/JavaScript <sub>(Instagram, Facebook, Snapchat, etc.)</sub>
+  - Perl & PHP most certainly additional <sub>(Snapchat & Facebook)</sub>
+  - Erlang is possible <sub>(Facebook)</sub>
 
 ---
