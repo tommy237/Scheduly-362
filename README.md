@@ -1,5 +1,5 @@
 _**Note**: for the CPSC-362 Software Engineering course_
-![image_logo](https://github.com/user-attachments/assets/d97f2610-55f3-49cf-956a-66ddfaf1f27e)
+![image_logo_scheduly_new](https://github.com/user-attachments/assets/a556e767-b0b7-4b8b-a8dc-377578891126)
 
 ---
 # Background
