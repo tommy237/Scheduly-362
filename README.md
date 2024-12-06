@@ -10,10 +10,13 @@ Take calling your friends as a prime example; it's normal for them to not recipr
 ---
 
 ## Features
+\*\* = yet to fully implement outside of 362
+
 _**Scheduly**_ applies many features that benefit user experience.
 1. **Draggable Events** are a good feature; helpful for rescheduling appointments when there are problems.
-2. **Integration** is another feature that's helpful, especially LinkedIn for interviews and zoom meetings. Google Calendars will also have back-to-back connection, since _Scheduly_ and it can utilize and import calendars.
-3. **Status**
+2. **\*\*Integration** is another feature that's helpful, especially LinkedIn for interviews and zoom meetings. Google Calendars will also have back-to-back connection, since _Scheduly_ and it can utilize and import calendars.
+3. **Status Update** is a base feature
+4. **\*\*Timezone Recalibration** is a base feature to include; for mutual friends who currently have school, work at a different state or country.
 
 # Goals
 _**Scheduly**_ aims to support effective time management and productivity through all users, including collaboration with other social media platforms so that features from _Scheduly_ are implemented within those applications. It should also be a recommended application to new users, as the features supply a simple process of setting appointments and events.
