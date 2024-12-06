@@ -11,6 +11,7 @@ Take calling your friends as a prime example; it's normal for them to not recipr
 
 ## Features
 \*\* = yet to fully implement outside of 362
+
 \* = extra cred
 
 _**Scheduly**_ applies many features that benefit user experience.
