@@ -1,37 +1,53 @@
-for the cpsc-362 course
+_**Note**: for the CPSC-362 Software Engineering course_
 
+---
 # Background
 _**Scheduly**_ is a social media platform that relies heavily on events, calendars, and (of course) schedules. It can allow users to add mututal friends, so that their profiles can display their busy schedules for the day, week, month, year, or later. This feature can help users organize their life and manage their time, since additional features enhance productivity among the social and online demographic.
 
 Take calling your friends as a prime example; it's normal for them to not reciprocate, and reasons of that vary with work, sleep, school, or others. No one knows how active their friends are, currently, and there's also confusion as to why they're not active at that time. Rhethorical question, but how do people know when to connect with someone at the right time?
 
 ---
-\*\* = yet to fully implement outside of 362
+\*\* = yet to fully implement outside of CPSC-362
 
-\* = extra cred
+\* = extra credit
 
 ## Features
 _**Scheduly**_ applies many features that benefit user experience.
-+ **Draggable Events** are a good feature; helpful for rescheduling appointments when there are problems.
-+ **\*\*Integration** is another feature that's helpful, especially LinkedIn for interviews and zoom meetings. Google Calendars will also have back-to-back connection, since _Scheduly_ and it can utilize and import calendars.
-+ **Status Update** is a base feature that allows the user's activity dependent on their current schedule. Yellow, green, and red are moreso determined if the user is free, idle, currently busy, or offline. This feature was solely inspired from Discord's status colors.
-   - 🟩 **Online** - If the user is currently free and is using the app.
-   - 🟨 **Idle** - If user is using the app during an event/work/school/appointment.
-   - ⬜ **Offline** - If the user is currently free but not using the app.
-   - 🟥 **Busy** - If the user is not using the app during an event/work/school/appointment.
-+ **\*Timezone Recalibration** is a base feature to include; for mutual friends who currently have school, work at a different state or country.
++ <ins>**Transformable Events**</ins> are a good feature; helpful for rescheduling appointments when there are problems.
+   - **Dragging** appointments to a different day on the calendar.
+   - **Resizing** events vertically or horizontally, increasing/decreasing event duration.
++ <ins>**Status Update**</ins> is a base feature that allows the user's activity dependent on their current schedule. Yellow, green, red, or grey are moreso determined if the user is free, idle, currently busy, or offline. This feature was solely inspired from Discord's status options, and serves as a good basis for _Scheduly_.
+   - 🟩 **Online** - If the user is currently free and is using the app/phone.
+   - 🟨 **Idle** - If user is using the app/phone during an event/work/school/appointment.
+   - ⬜ **Offline** - If the user is currently free but not using the app/phone.
+   - 🟥 **Busy** - If the user is not using the app/phone during an event/work/school/appointment.
+   - For text, the attending event name will hover over their profile. Formatted text depends on the type of event created (class/job/vacation/appointment/interview/sleeping).
++ <ins>**\*Timezone Recalibration**</ins> is a base feature to include; for mutual friends who currently have school, work at a different state or country. Events for mutual friends using a different time zone will have appointment times recalibrated for the user's time zone.
+  - > _**Example**: If a friend has an appointment at 2:00pm Tuesday under Japan Standard Time (JST), that appointment is then recalibrated to 9:00pm Monday under Pacific Standard Time (PST)._
+  - Daylight Savings Time is under consideration.
++ <ins>**\*\*Integration**</ins> is another feature that's helpful, especially LinkedIn for interviews and zoom meetings. Google Calendars will also have back-to-back connection, since _Scheduly_ and it can utilize and import calendars.
 
 ## Goals
 _**Scheduly**_ aims to support effective time management and productivity through all users, including collaboration with other social media platforms so that features from _Scheduly_ are implemented within those applications. It should also be a recommended application to new users, as the features supply a simple process of setting appointments and events.
 
 \*\*We yet to aim to integrate some existing platforms such as:
-+ **Facebook** - status updates
-+ **Twitter/X**
-+ **Snapchat**
-+ **LinkedIn** - status updates, professional faculty's office hours/busy hours
-+ **Google Calendar** - tasks/event imports
-+ **Instagram** - status updates, birthdays, etc.
-+ **Indeed** - same reason as LinkedIn
-+ 
++ <ins>**Facebook**</ins>
+  - shared updates from _Scheduly_
++ <ins>**Twitter/X**</ins>
+  - same reason as Facebook
++ <ins>**Snapchat**</ins>
+  - status updates
++ <ins>**LinkedIn**</ins>
+  - professional faculty's office hours/busy hours
+  - connections can view schedules
++ <ins>**Google Calendar**</ins>
+  - tasks/event imports
++ <ins>**Instagram**</ins>
+  - status updates
+  - birthdays
+  - mutuals can view schedules, etc.
++ <ins>**Indeed**</ins>
+  - same reason as LinkedIn
++ and many more...
 
 ---
