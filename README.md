@@ -53,9 +53,14 @@ _**Scheduly**_ aims to support effective time management and productivity throug
 + and many more...
 
 ## Methods
++ Design an enticing application/website logo (besides the opening text)
++ Plan a design layout of the platform (UI design blueprint)
 + Research backend languages of famous social media platforms above
-+ Mainly utilizing Python/C++/JavaScript <sub>(Instagram, Facebook, Snapchat, etc.)</sub>
++ Mainly utilize Python/C++/JavaScript <sub>(Instagram, Facebook, Snapchat, etc.)</sub>
   - Perl & PHP most certainly additional <sub>(Snapchat & Facebook)</sub>
   - Erlang is possible <sub>(Facebook)</sub>
+
+## Team Members
++ To be added.
 
 ---
