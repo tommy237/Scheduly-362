@@ -1,19 +1,19 @@
 _**Note**: for the CPSC-362 Software Engineering course_
 ![image_logo_scheduly_new](https://github.com/user-attachments/assets/a556e767-b0b7-4b8b-a8dc-377578891126)
 
----
-# Background
+------
+# _<ins>**B<sub>ACKGROUND</sub>**</ins>_
 _**Scheduly**_ is a social media platform that relies heavily on events, calendars, and (of course) schedules. It can allow users to add mututal friends, so that their profiles can display their busy schedules for the day, week, month, year, or later. This feature can help users organize their life and manage their time, since additional features enhance productivity among the social and online demographic.
 
 Take calling your friends as a prime example; it's normal for them to not reciprocate, and reasons of that vary with work, sleep, school, or others. No one knows how active their friends are, currently, and there's also confusion as to why they're not active at that time. Rhethorical question, but how do people know when to connect with someone at the right time?
 
----
-# Information
+------
+# _<ins>**I<sub>NFORMATION</sub>**</ins>_
 \*\* = yet to fully implement outside of CPSC-362
 
 \* = extra credit
 
-## i — Features
+## (i) — **F<sub>EATURES</sub>**
 _**Scheduly**_ applies many features that benefit user experience.
 + <ins>**Transformable Events**</ins> are a good feature; helpful for rescheduling appointments when there are problems.
    - **Dragging** appointments to a different day on the calendar.
@@ -29,7 +29,7 @@ _**Scheduly**_ applies many features that benefit user experience.
   - Daylight Savings Time is under consideration.
 + <ins>**\*\* Integration**</ins> is another feature that's helpful, especially LinkedIn for interviews and zoom meetings. Google Calendars will also have back-to-back connection, since _Scheduly_ and it can utilize and import calendars.
 
-## ii — Goals
+## (ii) — **G<sub>OALS</sub>**
 _**Scheduly**_ aims to support effective time management and productivity through all users, including collaboration with other social media platforms so that features from _Scheduly_ are implemented within those applications. It should also be a recommended application to new users, as the features supply a simple process of setting appointments and events.
 
 \*\* We yet to aim to integrate some existing platforms such as:
@@ -52,7 +52,7 @@ _**Scheduly**_ aims to support effective time management and productivity throug
   - same reason as LinkedIn
 + and many more...
 
-## iii — Methods
+## (iii) — **M<sub>ETHODS</sub>**
 + Design an enticing application/website logo (besides the opening text)
 + Plan a design layout of the platform (UI design blueprint)
 + Research backend languages of famous social media platforms above
@@ -60,7 +60,7 @@ _**Scheduly**_ aims to support effective time management and productivity throug
   - Perl & PHP most certainly additional <sub>(Snapchat & Facebook)</sub>
   - Erlang is possible <sub>(Facebook)</sub>
 
-## iv — Team Members
+## (iv) — **T<sub>EAM</sub> M<sub>EMBERS</sub>**
 + To be added.
 
----
+------
