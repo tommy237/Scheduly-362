@@ -61,6 +61,6 @@ _**Scheduly**_ aims to support effective time management and productivity throug
   - Erlang is possible <sub>(Facebook)</sub>
 
 ## (iv) — **T<sub>EAM</sub> M<sub>EMBERS</sub>**
-+ To be added.
-
++ **SEAN NGUYEN** // @SNguyen267
++ **STEPHANY MURILLO MUNOZ** // @stephanyyyyy
 ------
