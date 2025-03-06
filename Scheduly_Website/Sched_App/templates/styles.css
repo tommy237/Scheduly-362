@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/*      e    e           e      888 888b    | 
+       d8b  d8b         d8b     888 |Y88b   | 
+      d888bdY88b       /Y88b    888 | Y88b  | 
+     / Y88Y Y888b     /  Y88b   888 |  Y88b | 
+    /   YY   Y888b   /____Y88b  888 |   Y88b| 
+   /          Y888b /      Y88b 888 |    Y888  */
+:root {
+  --ColorLeft: rgb(190,217,232);
+  --ColorRight: rgb(219,199,255);
+}
+
+/* d8888b. d888888b .d8888. d8888b. db       .d8b.  db    db            
+   88  `8D   `88'   88'  YP 88  `8D 88      d8' `8b `8b  d8'            
+   88   88    88    `8bo.   88oodD' 88      88ooo88  `8bd8'             
+   88   88    88      `Y8b. 88~~~   88      88~~~88    88               
+   88  .8D   .88.   db   8D 88      88booo. 88   88    88               
+   Y8888D' Y888888P `8888Y' 88      Y88888P YP   YP    YP    */
+body { /*linear-gradient(deg, color percent)*/
+  background: linear-gradient(65deg, 
+  var(--ColorLeft), var(--ColorRight));
+}
+h1 {
+  font-family: "michroma";
+  font-weight: 750;
+  font-size: 38px;
+}
+h2 {
+  font-family: "kanit";
+  font-weight: 500;
+  font-size: 27px;
+}
+p {
+  font-family: "consolas";
+  font-size: 21px;
+}
+
+/*         888       d8b                   888             
+           888       Y8P                   888             
+           888                             888             
+   .d88b.  88888b.  8888  .d88b.   .d8888b 888888 .d8888b  
+  d88""88b 888 "88b "888 d8P  Y8b d88P"    888    88K      
+  888  888 888  888  888 88888888 888      888    "Y8888b. 
+  Y88..88P 888 d88P  888 Y8b.     Y88b.    Y88b.       X88 
+   "Y88P"  88888P"   888  "Y8888   "Y8888P  "Y888  88888P' 
+                     888                                   
+                    d88P                                   
+                  888P"                                    */
+.sphere{
+  height: 75px;
+  width: 75px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/*                                ,...                                                 
+`7MMF' `YMM'                    .d' ""                                                 
+  MM   .M'                      dM`                                                    
+  MM .d"     .gP"Ya `7M'   `MF'mMMmm`7Mb,od8 ,6"Yb.  `7MMpMMMb.pMMMb.  .gP"Ya  ,pP"Ybd 
+  MMMMM.    ,M'   Yb  VA   ,V   MM    MM' "'8)   MM    MM    MM    MM ,M'   Yb 8I   `" 
+  MM  VMA   8M""""""   VA ,V    MM    MM     ,pm9MM    MM    MM    MM 8M"""""" `YMMMa. 
+  MM   `MM. YM.    ,    VVV     MM    MM    8M   MM    MM    MM    MM YM.    , L.   I8 
+.JMML.   MMb.`Mbmmd'    ,V    .JMML..JMML.  `Moo9^Yo..JMML  JMML  JMML.`Mbmmd' M9mmmP' 
+                       ,V                                                              
+                    OOb"  */
+@keyframes bg_rotational{
+  100%{transform: rotatez(360deg)}
+}
