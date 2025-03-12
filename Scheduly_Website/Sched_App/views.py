@@ -15,4 +15,7 @@ def about_page(request):
 def login_page(request):
     return makePage('login.html')
 
+def sign_up(request):
+    return makePage('signup.html')
+
 # Create your views here.

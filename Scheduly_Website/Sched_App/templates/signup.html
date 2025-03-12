@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>User Registration</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="">
-  </head>
   <body>
-
+ 
     <h3>Sign Up Here!</h3>
+
+    <form action="/signup" method="post">
+    {% csrf_token %}
+      <label for="">Username</label><br>
+      <input type="text" id="username" name="username" placeholder="Create a username (only letters and numbers)" required><br><br>
+
+      <label for="">First Name</label><br>
+      <input type="text" id="fname" name="fname" placeholder="Enter Your First Name" required><br><br>
+
+      <label for="">Last Name</label><br>
+      <input type="text" id="lname" name="lname" placeholder="Enter Your Last Name" required><br><br>
+
+      <label for="">Email Address</label><br>
+      <input type="email" id="email" name="email" placeholder="Enter Your Email Address" required><br><br>
+
+      <label for="">Password</label><br>
+      <input type="password" id="pass1" name="pass1" placeholder="Create a Password" required><br><br>
+
+      <label for="">Confirm Your Password</label><br>
+      <input type="password" id="passkey" name="passkey" placeholder="Confirm Your Password" required><br><br>
+
+      <button type="Submit">Sign Up</button>
+    </form>
     <script src="" async defer></script>
   </body>
 </html>
