@@ -13,7 +13,7 @@ def makePage(name):
     return HttpResponse(template.render())
 
 def home(request):
-    return render(request, "home.html")
+    return makePage("home.html")
 
 def about_page(request):
     return makePage('about.html')
@@ -35,7 +35,7 @@ def login_page(request):
             messages.error(request, "Invalid username or password. Please try again.")
             return redirect('home')
         
-    return render(request, "signin.html")
+    return makePage("signin.html")
 
 def sign_up(request):
     return makePage('signup.html')
@@ -77,7 +77,7 @@ def signup(request):
         messages.success(request, "Your account has successfully been created.")
         return redirect("signin")
         
-    return render(request, "signup.html")
+    return makePage("signup.html")
 
 def signout(request):
     logout(request)
