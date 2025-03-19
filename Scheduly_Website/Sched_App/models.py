@@ -3,7 +3,6 @@ from django.db import models
 # Create your models here.
 
 # models.py
-from django.db import models
 
 class CustomUser(models.Model):
     username = models.CharField(max_length=150, unique=True)
