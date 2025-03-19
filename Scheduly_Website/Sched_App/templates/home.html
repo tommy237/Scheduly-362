@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
   <head>
     <meta charset="UTF-8">
@@ -6,16 +7,47 @@
     <title>Authentication</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="{% static 'appearance.css' %}">
   </head>
   <body>
-
-    <h3>Welcome to Scheduly!</h3>
-
-    <button type="submit"><a href="/signup">Sign Up</a></button>
-    <button type="submit"><a href="/signin">Sign In</a></button>
-    <button type="submit"><a href="/signout">Sign Out</a></button>
-
-    <script src="" async defer></script>
+    <div class="BG">
+      <!-- <div class="LOADING_CONTAINER">
+        <div class="ICON"></div><br>
+        <div class="LOADING_TXT">
+          <span class="LOAD_TXT">L&nbsp;</span>
+          <span class="LOAD_TXT"style="--i:0.05s">O&nbsp;</span>
+          <span class="LOAD_TXT"style="--i:0.1s">A&nbsp;</span>
+          <span class="LOAD_TXT"style="--i:0.15s">D&nbsp;</span>
+          <span class="LOAD_TXT"style="--i:0.2s">I&nbsp;</span>
+          <span class="LOAD_TXT"style="--i:0.25s">N&nbsp;</span>
+          <span class="LOAD_TXT"style="--i:0.3s">G&nbsp;</span>
+        </div>
+      </div> -->
+  
+      <div class="CONTAINER">
+        <span class="SUB_TXT">S&nbsp;</span>
+        <span class="SUB_TXT">I&nbsp;</span>
+        <span class="SUB_TXT">G&nbsp;</span>
+        <span class="SUB_TXT">N&nbsp;&nbsp;&nbsp;</span>
+        <span class="SUB_TXT">I&nbsp;</span>
+        <span class="SUB_TXT">N&nbsp;</span><br>
+        <!-- <input type="text" class="TXT_INPUT" id="user" name="User" placeholder="Username" required><br><br> -->
+        <!-- <input type="text" class="TXT_INPUT" id="pass" name="Pass" placeholder="Password" required><br><br> -->
+        <div class="TXT_INPUT">
+          <input type="text" class="LONG" required>
+          <div class="LABEL">U S E R N A M E</div>
+        </div>
+        <div class="TXT_INPUT">
+          <input type="text" class="LONG" required>
+          <div class="LABEL">P A S S W O R D</div>
+        </div>
+        <button type="submit"><a href="/signin">Sign In</a></button><br><br>
+        <span style="color:white;">New here? <a href="/signup" >Sign up here.</a></span>
+      </div>
+      <!-- {% comment %} <button type="submit"><a href="/signin">Sign In</a></button> -->
+      <!-- <button type="submit"><a href="/signout">Sign Out</a></button> {% endcomment %} -->
+  
+      <script src="{% static 'begin.js' %}"></script>
+    </div>
   </body>
 </html>

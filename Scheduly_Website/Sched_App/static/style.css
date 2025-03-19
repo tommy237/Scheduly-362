@@ -23,13 +23,12 @@
    88   88    88      `Y8b. 88~~~   88      88~~~88    88               
    88  .8D   .88.   db   8D 88      88booo. 88   88    88               
    Y8888D' Y888888P `8888Y' 88      Y88888P YP   YP    YP    */
+   *, *::before, *::after{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+  }
 body {
-  background: linear-gradient(65deg, 
-    rgb(46, 84, 167) 5%,
-    rgb(19, 51, 119) 25%, 
-    rgb(32, 48, 116) 50%,
-    rgb(56, 17, 128) 75%,
-    rgb(82, 33, 173) 95%);
   text-align: center;
   color: white;
   animation: scroller 4s;
@@ -47,6 +46,9 @@ h3 {
   text-align: center;
   font-family: "figtree";
   font-size: 25px;
+}
+a:link{
+  color:white;
 }
 
 /*         888       d8b                   888             
@@ -66,7 +68,48 @@ h3 {
   width:100%;
   min-height:400px;
   text-align:center;
-  color:white;
+  /* color:white; */
+}
+body{
+  background: linear-gradient(65deg, 
+    rgb(46, 84, 167) 5%,
+    rgb(19, 51, 119) 25%, 
+    rgb(32, 48, 116) 50%,
+    rgb(56, 17, 128) 75%,
+    rgb(82, 33, 173) 95%);
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+.LOADING_CONTAINER{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  position: fixed;
+}
+.LOADING_CONTAINER::after{
+  content: url("https://wallpapers.com/images/hd/placeholder-image-icon-mkyaiwxeq1nytru9.jpg");
+  max-width: 100%;
+  max-height: 100%;
+  height:auto;
+}
+.CONTAINER{
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  position: fixed;
+}
+.SUB_TXT{
+  font-size: 45px;
+  font-family: "michroma";
+}
+.TXT_INPUT{
+  
 }
 .text1,.text2{
   margin: 0;
@@ -75,8 +118,8 @@ h3 {
   font-size: 45px;
   text-wrap: nowrap;
 }
-.text1{animation:appear 1s,zoomL 1s forwards cubic-bezier(.7,.01,.37,.97);}
-.text2{animation:appear 1s,zoomR 1s forwards cubic-bezier(.7,.01,.37,.97);}
+.text1{animation:appear 1s,zoomL 1s forwards;}
+.text2{animation:appear 1s,zoomR 1s forwards;}
 .textbox{
   position:relative;
   width:var(--TextboxWidth);
