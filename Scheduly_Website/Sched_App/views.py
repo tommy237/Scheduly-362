@@ -52,6 +52,7 @@ def sign_up(request):
 #     else:
 #         form = CustomUserForm()
 #     return render(request, 'signup.html', {'form': form})
+#hi
 
 def signup(request):
     
