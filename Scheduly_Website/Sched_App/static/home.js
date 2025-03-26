@@ -1,4 +1,4 @@
-import "./home.css"
+import "./home.css" //t
 
 const loadr=document.querySelector<HTMLDivElement>(".LOAD_CONT");
 window.onload=()=>{
