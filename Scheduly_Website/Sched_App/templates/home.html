@@ -4,10 +4,10 @@
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Authentication</title>
+    <title>LOGIN :: Scheduly</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'appearance.css' %}">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
   </head>
   <body>
     {% for message in messages %}
@@ -20,53 +20,99 @@
     {% endfor %}
 
     <div class="BG">
-      <!-- <div class="LOADING_CONTAINER">
-        <div class="ICON"></div><br>
-        <div class="LOADING_TXT">
-          <span class="LOAD_TXT">L&nbsp;</span>
-          <span class="LOAD_TXT"style="--i:0.05s">O&nbsp;</span>
-          <span class="LOAD_TXT"style="--i:0.1s">A&nbsp;</span>
-          <span class="LOAD_TXT"style="--i:0.15s">D&nbsp;</span>
-          <span class="LOAD_TXT"style="--i:0.2s">I&nbsp;</span>
-          <span class="LOAD_TXT"style="--i:0.25s">N&nbsp;</span>
-          <span class="LOAD_TXT"style="--i:0.3s">G&nbsp;</span>
-        </div>
-      </div> -->
-  
-      <div class="CONTAINER">
-        <span class="SUB_TXT">S&nbsp;</span>
-        <span class="SUB_TXT">I&nbsp;</span>
-        <span class="SUB_TXT">G&nbsp;</span>
-        <span class="SUB_TXT">N&nbsp;&nbsp;&nbsp;</span>
-        <span class="SUB_TXT">I&nbsp;</span>
-        <span class="SUB_TXT">N&nbsp;</span><br>
-        <!-- <input type="text" class="TXT_INPUT" id="user" name="User" placeholder="Username" required><br><br> -->
-        <!-- <input type="text" class="TXT_INPUT" id="pass" name="Pass" placeholder="Password" required><br><br> -->
-        <div class="TXT_INPUT">
-          <input type="text" class="LONG" required>
-          <div class="LABEL">U S E R N A M E</div>
-        </div>
-        <div class="TXT_INPUT">
-          <input type="text" class="LONG" required>
-          <div class="LABEL">P A S S W O R D</div>
-        </div>
-        <button type="submit"><a href="/signin">Sign In</a></button><br><br>
-        <span style="color:white;">New here? <a href="/signup" >Sign up here.</a></span>
+      <div class="HEADING">
+        <nav>
+          <ul class="LINKS">
+            <li><a href="/about">ABOUT</a></li>
+          </ul>
+        </nav>
       </div>
-      <!-- {% comment %} <button type="submit"><a href="/signin">Sign In</a></button> -->
-      <!-- <button type="submit"><a href="/signout">Sign Out</a></button> {% endcomment %} -->
 
+      <div class="GRAD_CONT">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="goo">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+              <feBlend in="SourceGraphic" in2="goo" />
+            </filter>
+          </defs>
+        </svg>
+        <div class="GRAD G1"style="--op:0.7"></div>
+        <div class="GRAD G2"style="--op:1"></div>
+        <div class="GRAD G3"style="--op:1"></div>
+        <div class="GRAD G4"style="--op:0.7"></div>
+        <div class="GRAD G5"style="--op:1"></div>
+        <div class="GRAD I"style="--op:0.5"></div>
+      </div>
+
+      <div style="display:flex; align-items:center;
+      justify-content:center; height:70vh;
+      position:absolute; width:inherit;">
+        <div class="LOAD_CONT">
+          <div class="ICON"></div><br>
+          <div class="TXT_CONT">
+            <div class="HDR T0"style="--i:0s">L</div>
+            <div class="HDR T0"style="--i:0.15s">O</div>
+            <div class="HDR T0"style="--i:0.3s">A</div>
+            <div class="HDR T0"style="--i:0.45s">D</div>
+            <div class="HDR T0"style="--i:0.6s">I</div>
+            <div class="HDR T0"style="--i:0.75s">N</div>
+            <div class="HDR T0"style="--i:0.9s">G</div>
+          </div>
+        </div>
+      </div>
+      
       {% if user.is_authenticated %}
-      <h3>Hello {{ fname }}</h3>
-      <h4>You have successfully logged in.</h4>
-      <button type="submit"><a href="/signout">Sign Out</a></button>
-  
+        <h3>Hello {{ fname }}</h3>
+        <h4>You have successfully logged in.</h4>
+        <button type="submit"><a href="/signout">Sign Out</a></button>
       {% else %}
-      <button type="submit"><a href="/signup">Sign Up</a></button>
-      <button type="submit"><a href="/signin">Sign In</a></button>
+        <div style="display:flex; align-items:center;
+        justify-content:center; height:70vh;">
+          <div class="CONT"style="padding: 150px 0px;">
+            <div class="TXT_CONT"style="--h:50px">
+              <div class="HDR T1"style="--i:5.0s">S</div>
+              <div class="HDR T1"style="--i:5.05s">I</div>
+              <div class="HDR T1"style="--i:5.1s">G</div>
+              <div class="HDR T1"style="--i:5.15s">N&nbsp;</div>
+              <div class="HDR T1"style="--i:5.2s">I</div>
+              <div class="HDR T1"style="--i:5.25s">N</div>
+            </div>
+            <div class="TXT_CONT"style="--h:25px">
+              <div class="HDR T2"style="--i:5.3s">FOR&nbsp;</div>
+              <div class="HDR T2"style="--i:5.35s">AGENDA&nbsp;</div>
+              <div class="HDR T2"style="--i:5.4s">ACCESS</div>
+            </div>
+            <div class="TXT_INPUT"style="--i:5.5s">
+              <input type="text"id="Username"class="LONG" required>
+              <div class="LBL">Username</div>
+            </div>
+            <div class="TXT_INPUT"style="--i:5.75s">
+              <input type="password"id="Password"class="LONG" required>
+              <div class="LBL">Password</div>
+            </div>
+            <div style="padding:20px 0px; font-family:&quot;figtree&quot;;
+            color:white; font-size:12px; letter-spacing:3px;
+            text-shadow:0px 0px 5px rgba(0,0,0,0.95);
+            animation:fadeIn 1.5s both 6.0s;">
+              <input type="checkbox"id="AutoSign"class="CHK_BOX"/>
+              <span style="padding:0px ">Remember me for future sign-ins</span>
+            </div>
+            <button type="submit"class="CLICK"style="--i:6.25s">LOGIN</button>
+            <div class="SELECTS">
+              <div class="HDR T3"style="--i:6.5s">Forgot password?
+                <br><a class="LINK"style="line-height:2.5;"href="/reset">CLICK HERE</a>
+              </div>
+              <div class="HDR T3"style="--i:6.75s">New to this website?
+                <br><a class="LINK"style="line-height:2.5;"href="/signup">CLICK HERE</a>
+              </div>
+            </div>
+          </div>
+        </div>
       {% endif %}
-  
-      <script src="{% static 'begin.js' %}"></script>
     </div>
+
+    <script src="{% static 'home.js' %}"></script>
   </body>
 </html>
