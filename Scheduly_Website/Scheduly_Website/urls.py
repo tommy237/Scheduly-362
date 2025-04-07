@@ -20,4 +20,5 @@ from django.urls import include, path
 urlpatterns = [
     path('', include('Sched_App.urls')),
     path('admin/', admin.site.urls),
+    path('sched_app/', include('Sched_App.urls')),
 ]

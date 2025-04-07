@@ -8,15 +8,23 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from .forms import CustomUserForm
 
-def makePage(name):
-    template=loader.get_template(name)
-    return HttpResponse(template.render())
+# def makePage(name):
+#     template=loader.get_template(name)
+#     return HttpResponse(template.render())
+
+def makePage(request, template_name, context=None):
+    if context is None:
+        context = {}
+    template = loader.get_template(template_name)
+    # Notice we pass `request` as the second argument to `template.render()`
+    return HttpResponse(template.render(context, request))
+
 
 def home(request):
-    return makePage("home.html")
+    return makePage(request, "home.html")
 
 def about_page(request):
-    return makePage('about.html')
+    return makePage(request, 'about.html')
 
 def login_page(request):
     if request.method == 'POST':
@@ -35,10 +43,10 @@ def login_page(request):
             messages.error(request, "Invalid username or password. Please try again.")
             return redirect('home')
         
-    return makePage("signin.html")
+    return makePage(request, "signin.html")
 
 def sign_up(request):
-    return makePage('signup.html')
+    return makePage(request, 'signup.html')
 
 # Create your views here.
 
@@ -70,6 +78,10 @@ def signup(request):
             messages.error(request, "Username already exists. Please choose another.")
             return redirect("signup")
         
+        if pass1 != passkey:
+            messages.error(request, "Passwords do not match.")
+            return redirect("signup")
+        
         myuser = User.objects.create_user(username, email, pass1)
         myuser.first_name = fname
         myuser.last_name = lname
@@ -78,7 +90,7 @@ def signup(request):
         messages.success(request, "Your account has successfully been created.")
         return redirect("signin")
         
-    return makePage("signup.html")
+    return makePage(request, "signup.html")
 
 def signout(request):
     logout(request)
