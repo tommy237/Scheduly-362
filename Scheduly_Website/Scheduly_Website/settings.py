@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'Sched_App',
 ]
 
+#AUTH_USER_MODEL = 'Sched_App.CustomUser'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -82,22 +84,15 @@ WSGI_APPLICATION = 'Scheduly_Website.wsgi.application'
 #}
 
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': BASE_DIR / 'db.sqlite3',
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'scheduly_database',
+        'USER': 'root',
+        'PASSWORD': '1234pass',
+        'HOST': 'localhost',   # or IP/domain if remote
+        'PORT': '3306',        # default MySQL port
+    }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'scheduly_database',
-#         'USER': 'root',
-#         'PASSWORD': '1234pass',
-#         'HOST': 'localhost',   # or IP/domain if remote
-#         'PORT': '3306',        # default MySQL port
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
