@@ -1,30 +1,93 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SIGN UP :: Scheduly</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+  </head>
   <body>
- 
-    <h3>Sign Up Here!</h3>
-
-    <form action="/signup/" method="POST">
-    {% csrf_token %}
-      <label for="">Username</label><br>
-      <input type="text" id="username" name="username" placeholder="Create a username (only letters and numbers)" required><br><br>
-
-      <label for="">First Name</label><br>
-      <input type="text" id="fname" name="fname" placeholder="Enter Your First Name" required><br><br>
-
-      <label for="">Last Name</label><br>
-      <input type="text" id="lname" name="lname" placeholder="Enter Your Last Name" required><br><br>
-
-      <label for="">Email Address</label><br>
-      <input type="email" id="email" name="email" placeholder="Enter Your Email Address" required><br><br>
-
-      <label for="">Password</label><br>
-      <input type="password" id="pass1" name="pass1" placeholder="Create a Password" required><br><br>
-
-      <label for="">Confirm Your Password</label><br>
-      <input type="password" id="passkey" name="passkey" placeholder="Confirm Your Password" required><br><br>
-      <button type="Submit">Sign Up</button>
+    <header>
+      <nav>
+        <ul class="LINKS">
+          <li><a href="/about">ABOUT</a></li>
+          <li><a href="/about">CONTACT</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="BG">
+        <div class="GRAD_CONT">
+            <svg xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <filter id="goo">
+                  <feGaussianBlur in="SourceGraphic"
+                                  stdDeviation="10"
+                                  result="blur"/>
+                  <feColorMatrix in="blur" mode="matrix" 
+                                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" 
+                                  result="goo"/>
+                  <feBlend in="SourceGraphic"
+                            in2="goo"/>
+                </filter>
+              </defs>
+            </svg>
+            <div class="GRAD G1"style="--op:.9"></div>
+            <div class="GRAD G2"style="--op:.8"></div>
+            <div class="GRAD G3"style="--op:.7"></div>
+            <div class="GRAD G4"style="--op:.6"></div>
+            <div class="GRAD G5"style="--op:.5"></div>
+            <div class="GRAD I"style="--op:.9"></div>
+        </div>
+    </div>
+    <form action="/signup/"
+          method="POST"
+          class="FORM"
+          style="margin:100px 20px 0 20px;">
+      {% csrf_token %}
+      <div class="SMALL_SECT">
+        <h3 style="letter-spacing:4px;">Information</h3>
+        <p style="font-size:15px;">Get us to know yourself a little better, 
+          so that you'll get to know more about us! This will be used for
+          confirmation.</p>
+        <div style="display:flex;">
+          <div class="TXT_INPUT"style="width:50%;padding-right:5px;">
+            <input type="text"class="LONG"id="fname"name="fname"required>
+            <div class="LBL">First Name</div>
+          </div>
+          <div class="TXT_INPUT"style="width:50%;padding-left:5px;">
+            <input type="text"class="LONG"id="lname"name="lname"required>
+            <div class="LBL">Last Name</div>
+          </div>
+        </div>
+        <div class="TXT_INPUT">
+          <input type="email"class="LONG"id="email"name="email"required>
+          <div class="LBL">Email</div>
+        </div>
+      </div>
+      <div class="SMALL_SECT">
+        <h3 style="letter-spacing:4px;">Account</h3>
+        <p style="font-size:15px;">Save and re-access your planner by creating and re-entering your credentials!</p>
+        <div class="TXT_INPUT">
+          <input type="text"class="LONG"id="username"name="username"required>
+          <div class="LBL">Username</div>
+        </div>
+        <div style="display:flex;">
+          <div class="TXT_INPUT"style="width:50%;padding-right:5px;">
+            <input type="password"class="LONG"id="pass1"name="pass1"required>
+            <div class="LBL">Create Password</div>
+          </div>
+          <div class="TXT_INPUT"style="width:50%;padding-left:5px;">
+            <input type="password"class="LONG"id="passkey"name="passkey"required>
+            <div class="LBL">Confirm Password</div>
+          </div>
+        </div>
+      </div>
+      <button type="submit"class="CLICK">Sign Up</button>
     </form>
-    <script src="" async defer></script>
+    <script>
+      
+    </script>
   </body>
 </html>

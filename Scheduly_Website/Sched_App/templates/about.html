@@ -1,88 +1,168 @@
-<!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<!DOCTYPE html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width-device-width, initial-scale=1.0">
         <title>ABOUT :: Scheduly</title>
-        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <link rel="stylesheet" href="{% static 'formality.css' %}">
     </head>
     <body>
-        <div class="head">
-            <span class="text1">R E V O L U T I O N I Z E</span><br>
-            <span class="text2">P R O D U C T I V I T Y</span><br>
-            <span class="subt">with <em>Scheduly</em></span>
-        </div>
-        <div class="section">
-            <h2>About Us</h2>
-            <div>
-                <div class="_p"><strong><em>Scheduly</em></strong> is a scheduling application where users can</div>
-                <div class="_p">create simple tasks and events at ease without a complicated outlook</div>
-                <div class="_p">on their daily lives. A social media application where users can interact</div>
-                <div class="_p">and plan accordingly for hangouts, interviews, occasional events, and</div>
-                <div class="_p">much more!</div><br><br>
-
-                <div class="_p"><em>Scheduly</em> aims to provide better time management and social update</div>
-                <div class="_p">support for users who should be up-to-date with their mutual friends, or</div>
-                <div class="_p">accomodate their tasks and productivity under an organized timeline.</div><br><br>
-
-                <div class="_p">There are various features to be implemented for <em>Scheduly</em>, so that</div>
-                <div class="_p">users are provided better and accessible resources when it comes</div>
-                <div class="_p">to navigating, managing, and reinforcing their daily lives.</div>
-            </p>
-        </div>
-        <div class="section">
-            <h2>The Team</h2>
-            <div class="textbox">
-                <div>
-                    <div class="_p">The amazing people behind this project have contributed to</div>
-                    <div class="_p">changing people's lives around. This website would have not</div>
-                    <div class="_p">been possible had it not been for them!</div>
-                </div>
+        <header>
+            <nav>
+              <ul class="LINKS">
+                <li><a href="/about">ABOUT</a></li>
+                <li><a href="/about">CONTACT</a></li>
+              </ul>
+            </nav>
+          </header>
+        <div class="BG">
+            <div class="GRAD_CONT">
+                <svg xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <filter id="goo">
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+                      <feBlend in="SourceGraphic" in2="goo" />
+                    </filter>
+                  </defs>
+                </svg>
+                <div class="GRAD G1"style="--op:.9"></div>
+                <div class="GRAD G2"style="--op:.8"></div>
+                <div class="GRAD G3"style="--op:.7"></div>
+                <div class="GRAD G4"style="--op:.6"></div>
+                <div class="GRAD G5"style="--op:.5"></div>
+                <div class="GRAD I"style="--op:.9"></div>
             </div>
-            <h3>F O U N D E R</h3>
-            <div class="sub-section">
-                <div class="profile">
-                    <span class="pf-header">Tommy Nguyen</span>
-                    <div class="_p">He is currently a senior college undergraduate pursuing a Bachelors</div>
-                    <div class="_p">of Science in Computer Engineering, including a minor in Computer Science</div>
-                    <div class="_p">upon its creation.</div><br>
-
-                    <div class="_p">He envisioned this project as a struggle to make amends with past mutual</div>
-                    <div class="_p">friendship. When it comes to <em>Scheduly</em>, it is an endeavor of such</div>
-                    <div class="_p">assistance for others who were not only willing to reconnect with their peers,</div>
-                    <div class="_p">but to be more active in their schedules following procrastination.</div><br>
-
-                    <div class="_p">He is looking forward to implement any needed changes with his team for the</div>
-                    <div class="_p">website to thrive, but also reach the right users who need significant</div>
-                    <div class="_p">improvements in life.</div><br>
-                </div>
+        </div>
+        <div class="SCROLLER">
+            <div class="HEADING">
+                <div class="TITLE_1">REVOLUTIONIZE</div>
+                <div class="TITLE_2">PRODUCTIVITY</div>
+                <div class="SUBTITLE">with <em>Scheduly</em></div>
+                <button type="submit"class="CLICK"style="margin-top:25px;">SIGN IN</button>
             </div>
-            <h3>C O - F O U N D E R S</h3>
-            <div class="sub-section">
-                <div class="profile">
-                    <span class="pf-header">Sean Nguyen</span>
-                    <p> He is a transfer junior undergraduate pursuing 
-                        a Computer Engineering major. His responsibilities 
-                        behind <em>Scheduly</em> attributed to programming 
-                        the login system, blueprinting the website concept, 
-                        and side-managing the project with his developing 
-                        skills.
-                    </p>
-                </div>
-                <div class="profile">
-                    <span class="pf-header">Stephany Murillo Munoz</span>
-                    <div class="textbox">
-                        <p>
-                            She is a transfer graduate who currently pursues a 
-                            Computer Science major. Her contributions within the
-                            project involve the creation of the website, and 
-                            managing the database where the system secures and 
-                            displays all necessary data to the users.
-                        </p>
+            <div class="SECTION">
+                <h1>About Us</h1>
+                <p><strong><em>Scheduly</em></strong> is a scheduling application where users can 
+                    create simple tasks and events at ease without a complicated outlook 
+                    on their daily lives. A social media application where users can interact 
+                    and plan accordingly for hangouts, interviews, occasional events, and 
+                    much more!</p><br>
+                <p><em>Scheduly</em> aims to provide better time management and social update 
+                    support for users who should be up-to-date with their mutual friends, or 
+                    accomodate their tasks and productivity under an organized timeline.</p><br>
+                <p>There are various features to be implemented for <em>Scheduly</em>, so that 
+                    users are provided better and accessible resources when it comes 
+                    to navigating, managing, and reinforcing their daily lives.</p>
+            </div>
+            <div class="SECTION">
+                <h1>Meet The Team</h1>
+                <p style="padding:0 5%;">The amazing people behind this project 
+                    have contributed to changing people's lives around. 
+                    This website would have not been possible had it not 
+                    been for them!</p>
+                <input type="radio" name="SLIDES" id="R1" class="RADIO">
+                <input type="radio" name="SLIDES" id="R2" class="RADIO">
+                <input type="radio" name="SLIDES" id="R3" class="RADIO">
+                <div class="SLIDES">
+                    <div class="SLIDE">
+                        <div class="PARRY">
+                            <h2>Tommy Nguyen</h2>
+                            <h3>Founder</h3>
+                            <div class="CAPTION">
+                                <p>He is currently a senior college undergraduate 
+                                    pursuing a Bachelors of Science in Computer 
+                                    Engineering, including a minor in Computer Science 
+                                    upon its creation.</p><br>
+                                <p>He envisioned this project as a struggle to 
+                                    make amends with past mutual friendship. When 
+                                    it comes to <em>Scheduly</em>, it is an endeavor 
+                                    of such assistance for others who were not only 
+                                    willing to reconnect with their peers, but to be 
+                                    more active in their schedules following procrastination.</p><br>
+                                <p>He is looking forward to implement any needed 
+                                    changes with his team for the website to thrive, 
+                                    but also reach the right users who need significant 
+                                    improvements in life.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="SLIDE">
+                        <div class="PARRY">
+                            <h2>Sean Nguyen</h2>
+                            <h3>Co-Founder</h3>
+                            <div class="CAPTION">
+                                <p>He is a transfer junior undergraduate pursuing 
+                                    a Computer Engineering major. His responsibilities 
+                                    behind <em>Scheduly</em> attributed to programming 
+                                    the login system, blueprinting the website concept, 
+                                    and side-managing the project with his developing 
+                                    skills.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="SLIDE">
+                        <div class="PARRY">
+                            <h2>Stephany Murillo Munoz</h2>
+                            <h3>Co-Founder</h3>
+                            <div class="CAPTION">
+                                <p>She is a transfer graduate who currently pursues a 
+                                    Computer Science major. Her contributions within the
+                                    project involve the creation of the website, and 
+                                    managing the database where the system secures and 
+                                    displays all necessary data to the users.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="PREV"onclick="changeSlide(-1)">&#10094;</a>
+                    <a class="NEXT"onclick="changeSlide(1)">&#10095;</a>
+                    <div class="DOTS">
+                        <span class="DOT"href="#R1"></span>
+                        <span class="DOT"href="#R2"></span>
+                        <span class="DOT"href="#R3"></span>
                     </div>
                 </div>
             </div>
+            <div class="SECTION">
+                <h1>Connect</h1>
+                <p><em>Scheduly</em> allows you to be up-to-date with 
+                    your mutual friends, who may also align with your 
+                    schedule and accordingly plan with you! Status updates
+                    from their profiles easily detail their current day 
+                    so far!</p><br>
+                <p>This app also connects you and your friends directly,
+                    including on a professional setting, where your mutual
+                    connections organize your hangouts at the same place!</p>
+            </div>
+            <div class="SECTION">
+                <h1>Organize</h1>
+                <p><em>Scheduly</em> provides the essential features for a more 
+                    flexible schedule. You can transform and drag events across
+                    the current calendar, set important tasks within, and much more!
+                </p>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded',()=>{
+                    const bub=document.querySelector(".GRAD.I");
+                    let cX=0;
+                    let cY=0;
+                    let tgX=0;
+                    let tgY=0;
+                    function move(){
+                        cX+=(tgX-cX)/20;
+                        cY+=(tgY-cY)/20;
+                        bub.style.transform=`translate(${Math.round(cX)}px, ${Math.round(cY)}px)`;
+                        requestAnimationFrame(()=>{
+                          move();
+                        });
+                    }
+                    window.addEventListener('mousemove',(event)=>{
+                        tgX=event.clientX;
+                        tgY=event.clientY;
+                      });
+                    move();
+                });
+            </script>
         </div>
     </body>
 </html>

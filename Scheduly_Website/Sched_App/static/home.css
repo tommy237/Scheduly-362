@@ -25,11 +25,32 @@ Yb,  88      `8b,d8'   Y8   "8b,dP,d8'   Y8   "8b,dPYb,_    88
       rgb(53, 21, 114) 75%,
       rgb(61, 21, 134) 95%);
     --IPS:25%; --GS:100%;
-    --TIC:rgb(152, 199, 255);}
+    --TIC:rgb(152, 199, 255);
+    
+    --G1_C:87,133,233;
+    --G2_C:68,115,217;
+    --G3_C:88,109,203;
+    --G4_C:131,87,213;
+    --G5_C:128,83,212;
+    --GI_C:54,132,221;
+}
 *,*::before,*::after{margin:0;
     box-sizing:border-box;
     text-align:center;
     position:relative;}
+header{background-image:linear-gradient(
+        180deg,
+        rgba(33,37,68,1) 0%,
+        rgba(53,30,69,0) 90%
+    ); z-index:3; width:100%; height:100px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+}
+header nav{
+    
+}
 .BG{background: var(--LG);
     background-size: 400% 400%;
     animation: gradience 20s ease infinite;
@@ -37,18 +58,16 @@ Yb,  88      `8b,d8'   Y8   "8b,dP,d8'   Y8   "8b,dPYb,_    88
     height: 100vh;
     padding: 0;
     overflow: hidden;}
-.HEADING{background-color:transparent;
-    -webkit-backdrop-filter:blur(20px);
-    backdrop-filter:blur(20px);
-    background-image:linear-gradient(
-        180deg,
-        rgba(33,37,68,0.5) 0%,
-        rgba(53,30,69,0) 90%
-    ); z-index:3; width:100%; height:5rem;}
-
 .LOAD_CONT{position:absolute;
     width:100%; padding:300px 0;
     transition:all 0.5s;
+}
+.LINKS{
+    list-style: none;
+}
+.LINKS li{
+    display: inline-block;
+    padding: 0px 20px;
 }
 /*
        
@@ -74,36 +93,36 @@ Y8,        88  88    `8b      d8""""""""8b    88         8P  88  88           88
     transform-origin: center center;
     opacity:var(--op);}
 .GRAD.G1{background:radial-gradient(circle at center,
-        rgba(50,106,229,0.8) 0%,
-        rgba(50,106,229,0) 50%) no-repeat;
+        rgba(var(--G1_C),0.9) 0%,
+        rgba(var(--G1_C),0) 50%) no-repeat;
     animation:moveV 30s ease infinite;}
 .GRAD.G2{background:radial-gradient(circle at center,
-        rgba(33,85,195,0.7) 0%,
-        rgba(33,85,195,0) 52%) no-repeat;
+        rgba(var(--G2_C),0.7) 0%,
+        rgba(var(--G2_C),0) 52%) no-repeat;
     transform-origin:calc(50% - 400px);
     animation:circ 20s reverse infinite;}
 .GRAD.G3{background:radial-gradient(circle at center,
-        rgba(38,62,167,0.6) 0%,
-        rgba(38,62,167,0) 54%) no-repeat;
+        rgba(var(--G3_C),0.6) 0%,
+        rgba(var(--G3_C),0) 54%) no-repeat;
     top:calc(50% - var(--GS) / 2 + 200px);
     left:calc(50% - var(--GS) / 2 - 500px);
     transform-origin:calc(50% + 400px);
     animation:circ 40s linear infinite;}
 .GRAD.G4{background:radial-gradient(circle at center,
-        rgba(94,37,200,0.5) 0%,
-        rgba(94,37,200,0) 56%) no-repeat;
+        rgba(var(--G4_C),0.7) 0%,
+        rgba(var(--G4_C),0) 56%) no-repeat;
     transform-origin:calc(50% - 200px);
     animation:moveH 40s reverse infinite;}
 .GRAD.G5{background:radial-gradient(circle at center,
-        rgba(96,35,211,0.5) 0%,
-        rgba(96,35,211,0) 58%) no-repeat;
+        rgba(var(--G5_C),0.8) 0%,
+        rgba(var(--G5_C),0) 58%) no-repeat;
     top:calc(50% - var(--GS));
     left:calc(50% - var(--GS));
     transform-origin:calc(50% - 800px) calc(50% - 200px);
     animation:circ 20s ease infinite;}
 .GRAD.I{background:radial-gradient(circle at center,
-        rgba(54,132,221,0.5) 0%,
-        rgba(54,132,221,0) 60%) no-repeat;
+        rgba(var(--GI_C),0.9) 0%,
+        rgba(var(--GI_C),0) 60%) no-repeat;
     width:100%; height:100%;
     top:-50%; left:-50%;}
 
@@ -160,11 +179,11 @@ ooooooooooooo ooooo ooooooooooooo ooooo        oooooooooooo
     display:flex;
     padding:20px 0;}
 
-a.LINK:link,a.LINK:visited{font-family:'figtree';
+a:link,a:visited{font-family:'figtree';
     color: rgba(255,255,255,0.25);
     transition:0.2s cubic-bezier(.12,.57,.48,1);
     text-decoration:none;}
-a.LINK:hover{color:var(--TIC);
+a:hover{color:var(--TIC);
     text-shadow:0px 0px 5px var(--TIC), 
                 0px 0px 10px var(--TIC),
                 0px 0px 15px var(--TIC);
@@ -238,8 +257,9 @@ button.CLICK{
     ); border:none; border-radius:10px;
     box-shadow: 0px 0px 5px rgba(0,0,0,0.95);
     opacity:0.85; outline:none;
-    animation:fadeIn 1.5s both var(--i);}
-button:hover{background-image:none;
+    animation:fadeIn 1.5s both var(--i),
+            toggleEv 1.5s both var(--i);}
+button.CLICK:hover{background-image:none;
     background-color:var(--TIC); color:black;
     box-shadow:0 0 5px var(--TIC), 0 0 10px var(--TIC), 
                0 0 25px var(--TIC); opacity:1;
@@ -248,5 +268,5 @@ button:hover{background-image:none;
 @keyframes fadeIn{
     from{transform:translateY(100px); filter:blur(20px); opacity:0;}
     to{transform:translateY(0); filter:blur(0); opacity:1;}}
-@keyframes toggleEv{99%{pointer-events:none;}
+@keyframes toggleEv{99.999999%{pointer-events:none;}
     100%{pointer-events:all;}}

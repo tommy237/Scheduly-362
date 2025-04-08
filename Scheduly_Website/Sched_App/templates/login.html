@@ -1,16 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Log Into Scheduly</title>
+    <title>LOGIN :: Scheduly</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
   </head>
   <body>
 
-    <h3>Login With Your Account</h3>
+    {% comment %} <h3>Login With Your Account</h3>
 
     <form action="/signin/" method="POST">
     {% csrf_token %}
@@ -23,6 +23,142 @@
 
       <button type="submit">Sign In</button>
     </form>
-    <script src="" async defer></script>
+    <script src="" async defer></script> {% endcomment %}
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      <strong>Message:</strong> {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+
+    <div class="BG">
+      <header>
+        <nav>
+          <ul class="LINKS">
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/about">CONTACT</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div class="GRAD_CONT">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="goo">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+              <feBlend in="SourceGraphic" in2="goo" />
+            </filter>
+          </defs>
+        </svg>
+        <div class="GRAD G1"style="--op:0.7"></div>
+        <div class="GRAD G2"style="--op:1"></div>
+        <div class="GRAD G3"style="--op:1"></div>
+        <div class="GRAD G4"style="--op:0.7"></div>
+        <div class="GRAD G5"style="--op:1"></div>
+        <div class="GRAD I"style="--op:0.5"></div>
+      </div>
+
+      <div style="display:flex; align-items:center;
+      justify-content:center; height:70vh;
+      position:absolute; width:inherit;">
+        <div class="LOAD_CONT">
+          <div class="ICON"></div><br>
+          <div class="TXT_CONT">
+            <div class="HDR T0"style="--i:0s">L</div>
+            <div class="HDR T0"style="--i:0.15s">O</div>
+            <div class="HDR T0"style="--i:0.3s">A</div>
+            <div class="HDR T0"style="--i:0.45s">D</div>
+            <div class="HDR T0"style="--i:0.6s">I</div>
+            <div class="HDR T0"style="--i:0.75s">N</div>
+            <div class="HDR T0"style="--i:0.9s">G</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center;
+        justify-content:center; height:70vh;">
+          <div class="CONT"style="padding: 150px 0px;">
+            <div class="TXT_CONT"style="--h:50px">
+              <div class="HDR T1"style="--i:5.0s">S</div>
+              <div class="HDR T1"style="--i:5.05s">I</div>
+              <div class="HDR T1"style="--i:5.1s">G</div>
+              <div class="HDR T1"style="--i:5.15s">N&nbsp;</div>
+              <div class="HDR T1"style="--i:5.2s">I</div>
+              <div class="HDR T1"style="--i:5.25s">N</div>
+            </div>
+            <div class="TXT_CONT"style="--h:25px">
+              <div class="HDR T2"style="--i:5.3s">FOR&nbsp;</div>
+              <div class="HDR T2"style="--i:5.35s">AGENDA&nbsp;</div>
+              <div class="HDR T2"style="--i:5.4s">ACCESS</div>
+            </div>
+            <form action="/signin/"
+                  method="POST">
+              {% csrf_token %}
+              <div class="TXT_INPUT"style="--i:5.5s">
+                <input type="text"id="Username"name="USERNAME"class="LONG"required>
+                <div class="LBL">Username</div>
+              </div>
+              <div class="TXT_INPUT"style="--i:5.75s">
+                <input type="password"id="Password"name="PASSWORD"class="LONG"required>
+                <div class="LBL">Password</div>
+              </div>
+              <div style="padding:20px 0px; font-family:&quot;figtree&quot;;
+              color:white; font-size:12px; letter-spacing:3px;
+              text-shadow:0px 0px 5px rgba(0,0,0,0.95);
+              animation:fadeIn 1.5s both 6.0s;">
+                <input type="checkbox"id="AutoSign"name="AUTO_SIGN"class="CHK_BOX"/>
+                <span style="padding:0px ">Remember me for future sign-ins</span>
+              </div>
+              <button type="submit"class="CLICK"style="--i:6.25s">LOGIN</button>
+            </form>
+            <div class="SELECTS">
+              <div class="HDR T3"style="--i:6.5s">Forgot password?
+                <br><a class="LINK"style="line-height:2.5;"href="/reset">CLICK HERE</a>
+              </div>
+              <div class="HDR T3"style="--i:6.75s">New to this website?
+                <br><a class="LINK"style="line-height:2.5;"href="/signup">CLICK HERE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    {% comment %} <script src="{% static 'home.js' %}"> {% endcomment %}
+    <script>
+      const loadr=document.querySelector(".LOAD_CONT");
+      window.onload=()=>{
+          setTimeout(function(){
+              loadr.style.opacity="0";
+              setTimeout(function(){
+                  loadr.style.display="none";
+              },500);
+          },5000);
+      }
+      document.addEventListener('DOMContentLoaded',()=>{
+          const bub=document.querySelector(".GRAD.I");
+          let cX=0;
+          let cY=0;
+          let tgX=0;
+          let tgY=0;
+          function move(){
+              cX+=(tgX-cX)/20;
+              cY+=(tgY-cY)/20;
+              bub.style.transform=`translate(${Math.round(cX)}px, ${Math.round(cY)}px)`;
+              requestAnimationFrame(()=>{
+                move();
+              });
+          }
+          window.addEventListener('mousemove',(event)=>{
+              tgX=event.clientX;
+              tgY=event.clientY;
+            });
+          move();
+      });
+    </script>
+
   </body>
 </html>
