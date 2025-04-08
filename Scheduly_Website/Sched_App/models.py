@@ -1,10 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
 # models.py
 
-class CustomUser(models.Model):
+# class CustomUser(models.Model):
+class CustomUser(AbstractUser):  
     username = models.CharField(max_length=150, unique=True)
     password = models.CharField(max_length=128)  # Remember: store hashed passwords!
     email = models.EmailField(unique=True)
