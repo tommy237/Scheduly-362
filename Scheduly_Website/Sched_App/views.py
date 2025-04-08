@@ -82,13 +82,13 @@ def signup(request):
             messages.error(request, "Passwords do not match.")
             return redirect("signup")
         
-        myuser = User.objects.create_user(username, email, pass1)
+        myuser = User.objects.create_user(username=username, email=email, password=pass1)
         myuser.first_name = fname
         myuser.last_name = lname
         myuser.save()
         
         messages.success(request, "Your account has successfully been created.")
-        return redirect("login/")
+        return redirect("login")
         
     return makePage(request, "signup.html")
 
