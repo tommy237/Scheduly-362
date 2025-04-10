@@ -77,7 +77,7 @@ def signup(request):
         myuser.save()
         
         messages.success(request, "Your account has successfully been created.")
-        return redirect("login-page")
+        return redirect("login.html")
         
     return makePage(request, "signup.html")
 
