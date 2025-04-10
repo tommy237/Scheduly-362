@@ -49,6 +49,10 @@ def login_page(request):
     return makePage(request, "login.html")
 
 def sign_up(request):
+    return makePage(request, 'signup.html')
+
+def signup(request):
+    
     if request.method== "POST":
         # username = request.POST.get("username")
         username = request.POST.get("username")
