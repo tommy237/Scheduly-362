@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'Sched_App',
 ]
 
-#AUTH_USER_MODEL = 'Sched_App.CustomUser'
+AUTH_USER_MODEL = 'Sched_App.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
