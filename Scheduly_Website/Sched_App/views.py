@@ -58,6 +58,7 @@ def signup(request):
         username = request.POST.get("username")
         fname = request.POST.get("fname")
         lname = request.POST.get("lname")
+        date_of_birth = request.POST.get("date_of_birth")
         email = request.POST.get("email")
         pass1 = request.POST.get("pass1")
         passkey = request.POST.get("passkey")
@@ -74,6 +75,7 @@ def signup(request):
         myuser = User.objects.create_user(username=username, email=email, password=pass1)
         myuser.first_name = fname
         myuser.last_name = lname
+        myuser.date_of_birth = date_of_birth
         myuser.save()
         
         messages.success(request, "Your account has successfully been created.")
