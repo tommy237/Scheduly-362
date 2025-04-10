@@ -46,7 +46,7 @@ def login_page(request):
             messages.error(request, "Invalid username or password. Please try again.")
             return redirect('home')
         
-    return makePage(request, "login.html")
+    return makePage(request, "login")
 
 def sign_up(request):
     return makePage(request, 'signup.html')
