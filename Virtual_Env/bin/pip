@@ -1,4 +1,4 @@
-#!/mnt/c/Users/tommytran237/SOFTWARE_ENGINEERING/Scheduly-362/Virtual_Env/bin/python3
+#!/mnt/c/Users/tommytran237/CPSC_362/Scheduly-362/Virtual_Env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

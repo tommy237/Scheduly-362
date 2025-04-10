@@ -15,14 +15,14 @@ class CustomUser(models.Model):
     def __str__(self):
         return self.username
 
-class Event(models.Model):
-    name = models.CharField(max_length=40)
-    desc = models.CharField(max_length=3000)
-    date_start = models.DateTimeField()
-    date_end = models.DateTimeField()
-    notify = models.BooleanField(default=False)
+# class Event(models.Model):
+#     name = models.CharField(max_length=40)
+#     desc = models.CharField(max_length=3000)
+#     date_start = models.DateTimeField()
+#     date_end = models.DateTimeField()
+#     notify = models.BooleanField(default=False)
     
-    def __str__(self):
-        return f"[EVENT]:{self.name}\nBegins from: {self.date_start}\nEnds at: {self.date_end}"
+#     def __str__(self):
+#         return f"[EVENT]:{self.name}\nBegins from: {self.date_start}\nEnds at: {self.date_end}"
     
     

@@ -43,27 +43,9 @@ def login_page(request):
             messages.error(request, "Invalid username or password. Please try again.")
             return redirect('home')
         
-    return makePage("login.html")
+    return makePage(request, "login.html")
 
 def sign_up(request):
-    return makePage(request, 'signup.html')
-
-# Create your views here.
-
-# for sign up DATABASE
-# def signup(request):
-#     if request.method == 'POST':
-#         form = CustomUserForm(request.POST)
-#         if form.is_valid():
-#             form.save()  # Saves the data to the corresponding MySQL table columns
-#             return redirect('home')
-#     else:
-#         form = CustomUserForm()
-#     return render(request, 'signup.html', {'form': form})
-#hi
-
-def signup(request):
-    
     if request.method== "POST":
         # username = request.POST.get("username")
         username = request.POST.get("username")
@@ -91,6 +73,20 @@ def signup(request):
         return redirect("login")
         
     return makePage(request, "signup.html")
+
+# Create your views here.
+
+# for sign up DATABASE
+# def signup(request):
+#     if request.method == 'POST':
+#         form = CustomUserForm(request.POST)
+#         if form.is_valid():
+#             form.save()  # Saves the data to the corresponding MySQL table columns
+#             return redirect('home')
+#     else:
+#         form = CustomUserForm()
+#     return render(request, 'signup.html', {'form': form})
+#hi
 
 def signout(request):
     logout(request)

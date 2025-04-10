@@ -1,4 +1,4 @@
-#!/mnt/c/Users/tommytran237/SOFTWARE_ENGINEERING/Scheduly-362/Virtual_Env/bin/python3
+#!/mnt/c/Users/tommytran237/CPSC_362/Scheduly-362/Virtual_Env/bin/python3
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

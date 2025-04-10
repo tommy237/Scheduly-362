@@ -1,6 +1,9 @@
+
 ------
 # _<ins>**I<sub>NFORMATION</sub>**</ins>_
 This guide shows users on how to run this website project _Scheduly_, and other general inquries about website hosting. Once you've cloned this repository within a folder of your choice, begin the process below. Keep in mind that knowing basic terminal commands from Linux, and Ubuntu WSL installation is recommended.
+
+And also, read all the sections provided below.
 
 ------
 # _<ins>**C<sub>reating a website</sub>**</ins>_
@@ -32,7 +35,7 @@ python3 manage.py runserver
 # _<ins>**R<sub>unning the website</sub>**</ins>_
 
 ```
-source ./[VENV DIRECTORY]/bin/activate
+source ./[VENV DIRECTORY]/bin/activate  ##(optional)
 python3 ./[PROJECT DIRECTORY]/manage.py runserver
 ```
 
@@ -43,5 +46,22 @@ python3 ./[PROJECT DIRECTORY]/manage.py runserver
 
 * ``pip install [PACK NAME]==[VERSION #]`` requests the package installation to be exactly the version needed.
 * ``./[#### DIRECTORY]`` refers to the path from the current folder to the destination file.
+
+------
+### _<ins>**I<sub>ncluded dependencies</sub>**</ins>_
+For the website to function properly, ensure that your virtual environment must include or has installed the following packages:
+* **MySQLClient** (database access)
+```
+pip install mysqlclient
+sudo apt update
+sudo apt install mysql-server
+sudo service mysql start
+sudo mysql_secure_installation
+ | Press y|Y for Yes, any other key for No: N
+   | Remove anonymous users?: Y
+     | Disallow root login remotely?: Y
+       | Remove test database and access to it?: Y
+         | Reload privilege tables now?: Y
+```
 
 ------

@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from .models import CustomUser,Event
+from .models import CustomUser#,Event
 
 class CustomUserForm(forms.ModelForm):
     date_of_birth = forms.DateField(
@@ -22,15 +22,15 @@ class CustomUserForm(forms.ModelForm):
             'password': forms.PasswordInput(),  # Masks the password input
         }
 
-class EventForm(forms.ModelForm):
-    class Meta:
-        model = Event
-        fields = ['name',
-                  'desc',
-                  "date_start",
-                  'date_end',
-                  'notify']
-        widgets = {
-            'date_start': forms.DateInput(),
-            'date_end': forms.DateInput(),
-        }
+# class EventForm(forms.ModelForm):
+#     class Meta:
+#         model = Event
+#         fields = ['name',
+#                   'desc',
+#                   "date_start",
+#                   'date_end',
+#                   'notify']
+#         widgets = {
+#             'date_start': forms.DateInput(),
+#             'date_end': forms.DateInput(),
+#         }

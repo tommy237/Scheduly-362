@@ -140,22 +140,13 @@
       }
       document.addEventListener('DOMContentLoaded',()=>{
           const bub=document.querySelector(".GRAD.I");
-          let cX=0;
-          let cY=0;
-          let tgX=0;
-          let tgY=0;
+          let cX=0; let cY=0; let tgX=0; let tgY=0;
           function move(){
-              cX+=(tgX-cX)/20;
-              cY+=(tgY-cY)/20;
+              cX+=(tgX-cX)/20; cY+=(tgY-cY)/20;
               bub.style.transform=`translate(${Math.round(cX)}px, ${Math.round(cY)}px)`;
-              requestAnimationFrame(()=>{
-                move();
-              });
-          }
+              requestAnimationFrame(()=>{move();});}
           window.addEventListener('mousemove',(event)=>{
-              tgX=event.clientX;
-              tgY=event.clientY;
-            });
+              tgX=event.clientX; tgY=event.clientY;});
           move();
       });
     </script>
