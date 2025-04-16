@@ -83,16 +83,16 @@ WSGI_APPLICATION = 'Scheduly_Website.wsgi.application'
  #   }
 #}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'scheduly_database',
-#         'USER': 'root',
-#         'PASSWORD': '1234pass',
-#         'HOST': 'localhost',   # or IP/domain if remote
-#         'PORT': '3306',        # default MySQL port
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'scheduly_database',
+        'USER': 'root',
+        'PASSWORD': '1234pass',
+        'HOST': 'localhost',   # or IP/domain if remote
+        'PORT': '3306',        # default MySQL port
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
