@@ -1,27 +1,26 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.contrib.auth.models import User
-from django.contrib import messages 
-from django.contrib.auth import authenticate, login, logout
-
-from django.contrib.auth import get_user_model
-User = get_user_model()
-
-# for database
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib import messages
 from django.shortcuts import render, redirect
-from .forms import CustomUserForm
 
-# def makePage(name):
-#     template=loader.get_template(name)
-#     return HttpResponse(template.render())
+# for password reset
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.conf import settings
+
+User = get_user_model()
 
 def makePage(request, template_name, context=None):
     if context is None:
         context = {}
     template = loader.get_template(template_name)
-    # Notice we pass `request` as the second argument to `template.render()`
     return HttpResponse(template.render(context, request))
-
 
 def home(request):
     return makePage(request, "home.html")
@@ -41,7 +40,6 @@ def login_page(request):
             fname = user.first_name
             messages.success(request, f"Welcome back, {fname}!")
             return redirect("home")
-            
         else:
             messages.error(request, "Invalid username or password. Please try again.")
             return redirect('home')
@@ -52,9 +50,7 @@ def sign_up(request):
     return makePage(request, 'signup.html')
 
 def signup(request):
-    
-    if request.method== "POST":
-        # username = request.POST.get("username")
+    if request.method == "POST":
         username = request.POST.get("username")
         fname = request.POST.get("fname")
         lname = request.POST.get("lname")
@@ -63,7 +59,6 @@ def signup(request):
         pass1 = request.POST.get("pass1")
         passkey = request.POST.get("passkey")
         
-        # Check if a username has already been created
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists. Please choose another.")
             return redirect("signup")
@@ -83,21 +78,59 @@ def signup(request):
         
     return makePage(request, "signup.html")
 
-# Create your views here.
+def password_reset_request(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, "Email not found.")
+            return redirect('forgot-password')
 
-# for sign up DATABASE
-# def signup(request):
-#     if request.method == 'POST':
-#         form = CustomUserForm(request.POST)
-#         if form.is_valid():
-#             form.save()  # Saves the data to the corresponding MySQL table columns
-#             return redirect('home')
-#     else:
-#         form = CustomUserForm()
-#     return render(request, 'signup.html', {'form': form})
-#hi
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+        subject = "Password Reset"
+        message = render_to_string('password_reset_email.html', {
+            'user': user,
+            'uid': uid,
+            'token': token,
+            'domain': get_current_site(request).domain,
+        })
+
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+        return render(request, 'password_reset_done.html')
+
+    return render(request, 'password_reset.html')
+
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = get_user_model().objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            form = SetPasswordForm(user, request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Your password has been reset successfully.")
+                return redirect('login')
+        else:
+            form = SetPasswordForm(user)
+        return render(request, 'password_reset_confirm.html', {'form': form})
+    else:
+        messages.error(request, "The reset link is invalid or has expired.")
+        return redirect('password_reset')
 
 def signout(request):
     logout(request)
     messages.success(request, "Logged out successfully.")
     return redirect("home")
+
+def password_reset_done(request):
+    return render(request, 'password_reset_done.html')
+
+def password_reset_complete(request):
+    return render(request, 'password_reset_complete.html')
