@@ -1,11 +1,20 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.contrib.auth.models import User
-from django.contrib import messages 
-from django.contrib.auth import authenticate, login, logout
-import calendar
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib import messages
+from django.shortcuts import render, redirect
+
+# for password reset
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_strimport calendar
 from datetime import datetime
-from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.conf import settings
+
 User = get_user_model()
 from django.shortcuts import render, redirect
 from .forms import CustomUserForm
@@ -18,7 +27,6 @@ def makePage(request, template_name, context=None):
     if context is None:
         context = {}
     template = loader.get_template(template_name)
-    # Notice we pass `request` as the second argument to `template.render()`
     return HttpResponse(template.render(context, request))
 
 def home(request):
@@ -36,11 +44,9 @@ def login_page(request):
         
         if user is not None:
             login(request, user)
-            # fname = user.first_name
-            # messages.success(request, f"Welcome back, {fname}!")
-            # return redirect("home")
-            return redirect('dashboard') 
-            
+            fname = user.first_name
+            messages.success(request, f"Welcome back, {fname}!")
+            return redirect("home")
         else:
             messages.error(request, "Invalid username or password. Please try again.")
             return redirect('login-page')
@@ -134,6 +140,51 @@ def signup(request):
 #         return redirect("login")
         
 #     return makePage(request, "signup.html")
+def password_reset_request(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, "Email not found.")
+            return redirect('forgot-password')
+
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+        subject = "Password Reset"
+        message = render_to_string('password_reset_email.html', {
+            'user': user,
+            'uid': uid,
+            'token': token,
+            'domain': get_current_site(request).domain,
+        })
+
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+        return render(request, 'password_reset_done.html')
+
+    return render(request, 'password_reset.html')
+
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = get_user_model().objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            form = SetPasswordForm(user, request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Your password has been reset successfully.")
+                return redirect('login')
+        else:
+            form = SetPasswordForm(user)
+        return render(request, 'password_reset_confirm.html', {'form': form})
+    else:
+        messages.error(request, "The reset link is invalid or has expired.")
+        return redirect('password_reset')
 
 def signout(request):
     logout(request)
@@ -206,3 +257,10 @@ def calendar_lookup(request):
     #     'month_name': month_name,
     #     'weekday_hdr': weekday_hdr,
     # })
+
+
+def password_reset_done(request):
+    return render(request, 'password_reset_done.html')
+
+def password_reset_complete(request):
+    return render(request, 'password_reset_complete.html')
