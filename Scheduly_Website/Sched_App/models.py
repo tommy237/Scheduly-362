@@ -27,4 +27,27 @@ class CustomUser(AbstractUser):
 #     def __str__(self):
 #         return f"[EVENT]:{self.name}\nBegins from: {self.date_start}\nEnds at: {self.date_end}"
     
-    
+from django.db import models
+from .utils import first_weekday_of_month, MONTH_NAMES, WEEKDAY_NAMES
+
+class CalendarMonth(models.Model):
+    year  = models.PositiveIntegerField()
+    month = models.PositiveSmallIntegerField(
+        choices=[(i, MONTH_NAMES[i-1]) for i in range(1,13)]
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def first_weekday(self):
+        return first_weekday_of_month(self.year, self.month)
+
+    @property
+    def weekday_name(self):
+        return WEEKDAY_NAMES[self.first_weekday]
+
+    @property
+    def month_name(self):
+        return MONTH_NAMES[self.month-1]
+
+    def __str__(self):
+        return f"{self.month_name} {self.year} → {self.weekday_name}"

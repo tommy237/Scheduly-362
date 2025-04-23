@@ -82,6 +82,7 @@
             </div>
             <form action="/signin/"
                   method="POST">
+            <!-- <form action="{% url 'login-page' %}" method="POST"> -->
               {% csrf_token %}
               <div class="TXT_INPUT"style="--i:5.5s">
                 <input type="text"id="Username"name="USERNAME"class="LONG"required>

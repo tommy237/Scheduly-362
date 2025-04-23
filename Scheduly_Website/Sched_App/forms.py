@@ -27,10 +27,19 @@ class CustomUserForm(forms.ModelForm):
                   'password', 
                   'email', 
                   'first_name', 
-                  'last_name']
+                  'last_name',
+                  'date_of_birth']
         widgets = {
             'password': forms.PasswordInput(),  # Masks the password input
         }
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # hash the password properly
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
 
 # class EventForm(forms.ModelForm):
 #     class Meta:
@@ -44,3 +53,11 @@ class CustomUserForm(forms.ModelForm):
 #             'date_start': forms.DateInput(),
 #             'date_end': forms.DateInput(),
 #         }
+
+from django import forms
+from .models import CalendarMonth
+
+class CalendarForm(forms.ModelForm):
+    class Meta:
+        model = CalendarMonth
+        fields = ['year', 'month']

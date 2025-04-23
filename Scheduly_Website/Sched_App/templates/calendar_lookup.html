@@ -1,0 +1,40 @@
+<!-- {# Sched_App/templates/calendar_lookup.html #}
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ month_name }} {{ form.instance.year }}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Show me this month</button>
+  </form>
+
+  {% if month_days %}
+    <table>
+      <thead>
+        <tr>
+          {% for wd in weekday_hdr %}<th>{{ wd }}</th>{% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for week in month_days %}
+          <tr>
+            {% for day in week %}
+              <td>{% if day %}{{ day }}{% endif %}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %} -->
+
+{# Sched_App/templates/calendar_lookup.html #}
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>🌟 This is the Calendar Page 🌟</h1>
+    … rest of your content …
+  </body>
+</html>
