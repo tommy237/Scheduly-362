@@ -10,7 +10,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_strimport calendar
+from django.utils.encoding import force_bytes, force_str
+import calendar
 from datetime import datetime
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.conf import settings
@@ -46,7 +47,8 @@ def login_page(request):
             login(request, user)
             fname = user.first_name
             messages.success(request, f"Welcome back, {fname}!")
-            return redirect("home")
+            # return redirect("home")
+            return redirect("dashboard")
         else:
             messages.error(request, "Invalid username or password. Please try again.")
             return redirect('login-page')
@@ -140,14 +142,19 @@ def signup(request):
 #         return redirect("login")
         
 #     return makePage(request, "signup.html")
+
+from django.contrib.auth.forms import PasswordResetForm
+
 def password_reset_request(request):
+    print("🏁 GOT HERE → password_reset_request:", request.method, request.path)
+
     if request.method == 'POST':
         email = request.POST['email']
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             messages.error(request, "Email not found.")
-            return redirect('forgot-password')
+            return redirect('password_reset')
 
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -163,7 +170,7 @@ def password_reset_request(request):
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
         return render(request, 'password_reset_done.html')
 
-    return render(request, 'password_reset.html')
+    return render(request, 'password_reset_request.html')
 
 def password_reset_confirm(request, uidb64, token):
     try:
@@ -234,29 +241,32 @@ from .utils import MONTH_NAMES, WEEKDAY_NAMES
 from django.http import HttpResponse
 
 def calendar_lookup(request):
-    return HttpResponse("🏁 Calendar view is working!")
-    # form        = CalendarForm(request.POST or None)
-    # month_days  = None
-    # month_name  = None
-    # weekday_hdr = None
+    print("→ calendar_lookup view hit")
 
-    # if form.is_valid():
-    #     cm = form.save()
-    #     year, month = cm.year, cm.month
+    month_days  = None
+    month_name  = None
+    weekday_hdr = None
 
-    #     # build a Calendar that starts weeks on Sunday
-    #     cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
-    #     month_days = cal.monthdayscalendar(year, month)
-    #     # e.g. [[0, 0, 1,2,3,4,5], [6,7,8,9,10,11,12], …]
+    form = CalendarForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        cm   = form.save(commit=False)
+        year = cm.year
+        month= cm.month
 
-    #     month_name  = MONTH_NAMES[month-1]
-    #     weekday_hdr = WEEKDAY_NAMES  # ["Sunday","Monday",…]
-    # return render(request, 'calendar_lookup.html', {
-    #     'form': form,
-    #     'month_days': month_days,
-    #     'month_name': month_name,
-    #     'weekday_hdr': weekday_hdr,
-    # })
+        # build a Calendar that starts weeks on Sunday
+        cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
+        month_days = cal.monthdayscalendar(year, month)
+        # e.g. [[0,0,1,2,3,4,5], [6,7,8,9,10,11,12],…]
+
+        month_name  = MONTH_NAMES[month-1]
+        weekday_hdr = WEEKDAY_NAMES
+
+    return render(request, 'calendar_lookup.html', {
+        'form': form,
+        'month_days': month_days,
+        'month_name': month_name,
+        'weekday_hdr': weekday_hdr,
+    })
 
 
 def password_reset_done(request):
