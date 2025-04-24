@@ -102,11 +102,13 @@
               <button type="submit"class="CLICK"style="--i:6.25s">LOGIN</button>
             </form>
             <div class="SELECTS">
-              <div class="HDR T3"style="--i:6.5s">Forgot password?
-                <br><a class="LINK"style="line-height:2.5;"href="/reset">CLICK HERE</a>
+              <div class="HDR T3" style="--i:6.5s">
+                Forgot password?<br>
+                <a class="LINK" href="{% url 'password_reset' %}">CLICK HERE</a>
               </div>
-              <div class="HDR T3"style="--i:6.75s">New to this website?
-                <br><a class="LINK"style="line-height:2.5;"href="/signup">CLICK HERE</a>
+              <div class="HDR T3" style="--i:6.75s">
+                New to this website?<br>
+                <a class="LINK" href="{% url 'signup' %}">CLICK HERE</a>
               </div>
             </div>
           </div>
