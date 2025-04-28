@@ -1,46 +1,97 @@
-<!-- <!DOCTYPE html>
-<html>
-  <body>
-    <h1>🌟 This is the Calendar Page 🌟</h1>
-    
-  </body>
-</html>  -->
-
-
 {% extends "base.html" %}
+{% block title %}Scheduly{% endblock %}
 
 {% block content %}
-  <h1>{{ month_name }} {{ form.instance.year }}</h1>
+  <header class="page-header">
+    <h1>Scheduly</h1>
+  </header>
 
-  <form method="post">
+  <form method="post" class="calendar-form" id="calendar-form">
     {% csrf_token %}
-    <div>
-      {{ form.year.label_tag }} {{ form.year }}
+
+    {# Hidden inputs for year & month #}
+    <input type="hidden" name="year"  id="id_year"  value="{{ year }}">
+    <input type="hidden" name="month" id="id_month" value="{{ form.initial.month }}">
+
+    {# Month selector #}
+    <div class="month-selector-wrapper" style="position:relative;">
+      <button type="button" id="month-button">{{ month_name }}</button>
+      <div id="month-grid" class="month-grid">
+        {% for abbrev in MONTH_ABBREVS %}
+          <div class="month-cell" data-month="{{ forloop.counter }}">
+            {{ abbrev }}
+          </div>
+        {% endfor %}
+      </div>
     </div>
-    <div>
-      {{ form.month.label_tag }} {{ form.month }}
+
+    {# Year selector arrows #}
+    <div class="year-selector-wrapper">
+      <button type="submit" name="delta" value="-1">&lsaquo;</button>
+      <span id="year-display">{{ year }}</span>
+      <button type="submit" name="delta" value="1">&rsaquo;</button>
     </div>
-    <button type="submit">Show me this month</button>
   </form>
 
-  {% if month_days %}
-    <table class="calendar-table">
-      <thead>
-        <tr>
-          {% for wd in weekday_hdr %}
-            <th>{{ wd }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        {% for week in month_days %}
-          <tr>
-            {% for day in week %}
-              <td>{% if day %}{{ day }}{% endif %}</td>
-            {% endfor %}
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  {% if month_name and year %}
+    <h2 class="calendar-title">{{ month_name }} {{ year }}</h2>
   {% endif %}
+
+  {% if month_days %}
+    <div class="calendar-container">
+      <table class="calendar-table">
+        <thead>
+          <tr>
+            {% for wd in weekday_hdr %}<th>{{ wd }}</th>{% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for week in month_days %}
+            <tr>
+              {% for day in week %}
+                <td>
+                  {% if day %}
+                    <div class="day-number">{{ day }}</div>
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const monthBtn  = document.getElementById('month-button');
+  const monthGrid = document.getElementById('month-grid');
+  const monthInput= document.getElementById('id_month');
+  const form      = document.getElementById('calendar-form');
+
+  // Toggle month grid
+  monthBtn.addEventListener('click', () => {
+    monthGrid.classList.toggle('visible');
+  });
+
+  // When a month is picked, update & submit
+  monthGrid.addEventListener('click', e => {
+    const cell = e.target.closest('.month-cell');
+    if (!cell) return;
+    monthInput.value = cell.dataset.month;
+    monthBtn.textContent = cell.textContent;
+    monthGrid.classList.remove('visible');
+    form.submit();
+  });
+
+  // Close grid on outside click
+  document.addEventListener('click', e => {
+    if (!monthGrid.contains(e.target) && e.target !== monthBtn) {
+      monthGrid.classList.remove('visible');
+    }
+  });
+});
+</script>
 {% endblock %}
