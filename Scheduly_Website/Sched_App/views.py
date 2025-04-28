@@ -18,7 +18,8 @@ from django.conf import settings
 
 User = get_user_model()
 from django.shortcuts import render, redirect
-from .forms import CustomUserForm
+from .forms import CustomUserForm, PasswordResetRequestForm
+from .models import CustomUser
 
 # def makePage(name):
 #     template=loader.get_template(name)
@@ -149,28 +150,34 @@ def password_reset_request(request):
     print("🏁 GOT HERE → password_reset_request:", request.method, request.path)
 
     if request.method == 'POST':
-        email = request.POST['email']
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            messages.error(request, "Email not found.")
-            return redirect('password_reset')
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = CustomUser.objects.get(email=email)
+                
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
+                subject = "Password Reset"
+                message = render_to_string('password_reset_email.html', {
+                    'user': user,
+                    'uid': uid,
+                    'token': token,
+                    'domain': get_current_site(request).domain,
+                    'protocol': 'https' if request.is_secure() else 'http',
+                })
 
-        subject = "Password Reset"
-        message = render_to_string('password_reset_email.html', {
-            'user': user,
-            'uid': uid,
-            'token': token,
-            'domain': get_current_site(request).domain,
-        })
+                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                return render(request, 'password_reset_done.html')
 
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-        return render(request, 'password_reset_done.html')
+            except CustomUser.DoesNotExist:
+                messages.error(request, "Email not found.")
+                return redirect('password_reset')
+    else:
+        form = PasswordResetRequestForm()
 
-    return render(request, 'password_reset_request.html')
+    return render(request, 'password_reset_request.html', {'form': form})
 
 def password_reset_confirm(request, uidb64, token):
     try:

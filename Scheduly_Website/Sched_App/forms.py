@@ -47,6 +47,9 @@ class CustomUserForm(forms.ModelForm):
 #             'date_end': forms.DateInput(),
 #         }
 
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(label="Email", max_length=254, widget=forms.EmailInput(attrs={'autocomplete': 'email', 'class': 'form-control'}))
+
 from django import forms
 from .models import CalendarMonth
 
