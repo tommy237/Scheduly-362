@@ -1,6 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Welcome, {{ user.first_name }}!</h1>
-  <p>This is your dashboard.</p>
+  <h1>Welcome, {{ user.username }}!</h1>
+
+  <!-- Calendar selector (if you still want people to pick another month) -->
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      {{ form.year.label_tag }} {{ form.year }}
+    </div>
+    <div>
+      {{ form.month.label_tag }} {{ form.month }}
+    </div>
+    <button type="submit">Show me this month</button>
+  </form>
+
+  <!-- Display the calendar for the selected (or default) month -->
+  <h2>{{ month_name }} {{ form.instance.year }}</h2>
+  <table class="calendar-table">
+    <thead>
+      <tr>
+        {% for wd in weekday_hdr %}
+          <th>{{ wd }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for week in month_days %}
+        <tr>
+          {% for day in week %}
+            <td>{% if day %}{{ day }}{% endif %}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
   <p><a href="{% url 'logout' %}">Log out</a></p>
 {% endblock %}

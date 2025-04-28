@@ -37,6 +37,8 @@ def about_page(request):
     return makePage(request, 'about.html')
 
 def login_page(request):
+    print("🔥 LOGIN POST:", request.POST.dict())
+
     if request.method == 'POST':
         username = request.POST['USERNAME']
         pass1 = request.POST['PASSWORD']
@@ -48,7 +50,7 @@ def login_page(request):
             fname = user.first_name
             messages.success(request, f"Welcome back, {fname}!")
             # return redirect("home")
-            return redirect("dashboard")
+            return redirect("home-page")
         else:
             messages.error(request, "Invalid username or password. Please try again.")
             return redirect('login-page')
@@ -58,6 +60,66 @@ def login_page(request):
 
 def sign_up(request):
     return makePage(request, 'signup.html')
+
+# at top of views.py
+import calendar
+from datetime import date
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .forms import CalendarForm
+from .utils import MONTH_NAMES, WEEKDAY_NAMES
+
+MONTH_ABBREVS = [
+    "Jan", "Feb", "Mar",
+    "April", "May", "June",
+    "July", "Aug", "Sept",
+    "Oct", "Nov", "Dec"
+]
+
+@login_required
+def home(request):
+    # 1) Defaults
+    today = date.today()
+    year  = today.year
+    month = today.month
+
+    if request.method == "POST":
+        # 2) If an arrow was clicked, adjust the year
+        delta = request.POST.get("delta")
+        if delta:
+            try:
+                # preserve the submitted month (hidden input)
+                month = int(request.POST.get("month", month))
+                year  = int(request.POST.get("year", year)) + int(delta)
+            except ValueError:
+                # fallback to today on bogus data
+                year, month = today.year, today.month
+        else:
+            # 3) Otherwise it was a normal month/year submission
+            form = CalendarForm(request.POST)
+            if form.is_valid():
+                year  = form.cleaned_data["year"]
+                month = form.cleaned_data["month"]
+            else:
+                year, month = today.year, today.month
+
+    # 4) Always rebuild the calendar grid for year/month
+    cal        = calendar.Calendar(firstweekday=calendar.SUNDAY)
+    month_days = cal.monthdayscalendar(year, month)
+    month_name = MONTH_NAMES[month - 1]
+    weekday_hdr= [wd[:3] for wd in WEEKDAY_NAMES]
+
+    # 5) Prefill the form so if user changes month next, the hidden year remains correct
+    form = CalendarForm(initial={"year": year, "month": month})
+
+    return render(request, "home.html", {
+        "form":          form,
+        "year":          year,
+        "month_name":    month_name,
+        "weekday_hdr":   weekday_hdr,
+        "month_days":    month_days,
+        "MONTH_ABBREVS": MONTH_ABBREVS,
+    })
 
 def signup(request):
     if request.method == "POST":
@@ -102,54 +164,13 @@ def signup(request):
     # GET → render the signup form
     return render(request, "signup.html")
 
-# KEEP THIS FOR NOW (USED IT FOR DEBUGGING)
-# def signup(request):
-    
-#     if request.method== "POST":
-#         print("🔥 GOT SIGNUP POST:", request.POST.dict())
-#         # username = request.POST.get("username")
-#         username = request.POST.get("username")
-#         first_name = request.POST.get("first_name")
-#         last_name = request.POST.get("last_name")
-#         dob_str = request.POST.get("date_of_birth")
-#         email = request.POST.get("email")
-#         pass1 = request.POST.get("pass1")
-#         passkey = request.POST.get("passkey")
-        
-#         # Check if a username has already been created
-#         if User.objects.filter(username=username).exists():
-#             messages.error(request, "Username already exists. Please choose another.")
-#             return redirect("signup")
-        
-#         if pass1 != passkey:
-#             messages.error(request, "Passwords do not match.")
-#             return redirect("signup")
-        
-#         try:
-#             dob = datetime.strptime(dob_str, "%m-%d-%Y").date()
-#         except (ValueError, TypeError):
-#             messages.error(request, "Date of birth must be in MM-DD-YYYY format.")
-#             return redirect("signup")
-        
-#         myuser = User.objects.create_user(username=username, email=email, password=pass1)
-#         myuser.first_name = first_name
-#         myuser.last_name = last_name
-#         myuser.date_of_birth = dob
-#         myuser.save()
-
-        
-#         messages.success(request, "Your account has successfully been created.")
-#         return redirect("login")
-        
-#     return makePage(request, "signup.html")
-
 from django.contrib.auth.forms import PasswordResetForm
 
 def password_reset_request(request):
     print("🏁 GOT HERE → password_reset_request:", request.method, request.path)
 
     if request.method == 'POST':
-        email = request.POST['email']
+        email = request.POST.get['email']
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
@@ -235,38 +256,52 @@ def dashboard(request):
 
 # Sched_App/views.py
 # import calendar
+# views.py
+# views.py
+
+# views.py
+
+# views.py
+
+import calendar
+from datetime import date
 from django.shortcuts import render
 from .forms import CalendarForm
 from .utils import MONTH_NAMES, WEEKDAY_NAMES
-from django.http import HttpResponse
 
 def calendar_lookup(request):
-    print("→ calendar_lookup view hit")
+    today = date.today()
 
-    month_days  = None
-    month_name  = None
-    weekday_hdr = None
+    if request.method == "POST":
+        form = CalendarForm(request.POST)
+        if form.is_valid():
+            year  = form.cleaned_data["year"]
+            month = form.cleaned_data["month"]
+        else:
+            year, month = today.year, today.month
+    else:
+        # first page load: default to today
+        year, month = today.year, today.month
+        form = CalendarForm(initial={"year": year, "month": month})
 
-    form = CalendarForm(request.POST or None)
-    if request.method == "POST" and form.is_valid():
-        cm   = form.save(commit=False)
-        year = cm.year
-        month= cm.month
+    # build calendar matrix (weeks)
+    cal         = calendar.Calendar(firstweekday=calendar.SUNDAY)
+    month_days  = cal.monthdayscalendar(year, month)
+    month_name  = MONTH_NAMES[month - 1]
+    # abbreviate weekdays: ["Sun","Mon",…"]
+    weekday_hdr = [wd[:3] for wd in WEEKDAY_NAMES]
 
-        # build a Calendar that starts weeks on Sunday
-        cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
-        month_days = cal.monthdayscalendar(year, month)
-        # e.g. [[0,0,1,2,3,4,5], [6,7,8,9,10,11,12],…]
-
-        month_name  = MONTH_NAMES[month-1]
-        weekday_hdr = WEEKDAY_NAMES
-
-    return render(request, 'calendar_lookup.html', {
-        'form': form,
-        'month_days': month_days,
-        'month_name': month_name,
-        'weekday_hdr': weekday_hdr,
+    return render(request, "calendar_lookup.html", {
+        "form":        form,
+        "month_days":  month_days,
+        "month_name":  month_name,
+        "weekday_hdr": weekday_hdr,
+        "year":        year,     # ← make sure to pass this!
     })
+
+
+
+
 
 
 def password_reset_done(request):
