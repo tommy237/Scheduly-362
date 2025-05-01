@@ -142,12 +142,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email backend for dev – change to SMTP for production
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your_email@gmail.com'  # Replace with your email
-EMAIL_HOST_PASSWORD = 'your_password'  # Or an app-specific password if you're using 2FA
+EMAIL_HOST_USER = 'nguyensean091@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'sbag aiou fvyz hbnn'  # Or an app-specific password if you're using 2FA
+DEFAULT_FROM_EMAIL = 'Scheduly Support <nguyensean091@gmail.com>'
 
 # Note: You need to set up an App Password in your Google account settings
 # to use this with Gmail. See: https://support.google.com/accounts/answer/185201
