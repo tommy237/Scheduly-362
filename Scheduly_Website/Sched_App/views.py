@@ -20,10 +20,6 @@ User = get_user_model()
 from django.shortcuts import render, redirect
 from .forms import CustomUserForm
 
-# def makePage(name):
-#     template=loader.get_template(name)
-#     return HttpResponse(template.render())
-
 def makePage(request, template_name, context=None):
     if context is None:
         context = {}
@@ -61,65 +57,139 @@ def login_page(request):
 def sign_up(request):
     return makePage(request, 'signup.html')
 
-# at top of views.py
-import calendar
-from datetime import date
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from .forms import CalendarForm
-from .utils import MONTH_NAMES, WEEKDAY_NAMES
+# helper function for holidays
+# Sched_App/views.py
+def nth_weekday_of_month(year, month, weekday, n):
+    """
+    Return the date of the n-th occurrence of `weekday` in the given year/month.
+    weekday: Monday=0 … Sunday=6
+    """
+    first_wd, days_in_month = calendar.monthrange(year, month)
+    # how many days from the 1st until the first desired weekday
+    offset = (weekday - first_wd) % 7
+    day    = 1 + offset + (n - 1) * 7
+    if day <= days_in_month:
+        return date(year, month, day)
+    return None
 
-MONTH_ABBREVS = [
-    "Jan", "Feb", "Mar",
-    "April", "May", "June",
-    "July", "Aug", "Sept",
-    "Oct", "Nov", "Dec"
-]
+from datetime import date, timedelta
+import calendar
+from types import SimpleNamespace
+
+import holidays
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+from .forms import CalendarForm
+from .models import Event
+from .utils import MONTH_NAMES, WEEKDAY_NAMES
 
 @login_required
 def home(request):
-    # 1) Defaults
-    today = date.today()
-    year  = today.year
-    month = today.month
+    # 1) Determine year/month
+    if request.method == 'POST':
+        year  = int(request.POST['year'])
+        month = int(request.POST['month'])
+        delta = int(request.POST.get('delta', 0))
+        year += delta
+    else:
+        today = date.today()
+        year, month = today.year, today.month
 
-    if request.method == "POST":
-        # 2) If an arrow was clicked, adjust the year
-        delta = request.POST.get("delta")
-        if delta:
-            try:
-                # preserve the submitted month (hidden input)
-                month = int(request.POST.get("month", month))
-                year  = int(request.POST.get("year", year)) + int(delta)
-            except ValueError:
-                # fallback to today on bogus data
-                year, month = today.year, today.month
-        else:
-            # 3) Otherwise it was a normal month/year submission
-            form = CalendarForm(request.POST)
-            if form.is_valid():
-                year  = form.cleaned_data["year"]
-                month = form.cleaned_data["month"]
-            else:
-                year, month = today.year, today.month
+    # 2) Hidden-input CalendarForm
+    form = CalendarForm(initial={'year': year, 'month': month})
 
-    # 4) Always rebuild the calendar grid for year/month
-    cal        = calendar.Calendar(firstweekday=calendar.SUNDAY)
+    # 3) Build the month matrix
+    cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
     month_days = cal.monthdayscalendar(year, month)
-    month_name = MONTH_NAMES[month - 1]
-    weekday_hdr= [wd[:3] for wd in WEEKDAY_NAMES]
 
-    # 5) Prefill the form so if user changes month next, the hidden year remains correct
-    form = CalendarForm(initial={"year": year, "month": month})
+    # 4) Humanize names
+    month_name  = MONTH_NAMES[month-1]
+    weekday_hdr = [wd[:3] for wd in WEEKDAY_NAMES]
 
-    return render(request, "home.html", {
-        "form":          form,
-        "year":          year,
-        "month_name":    month_name,
-        "weekday_hdr":   weekday_hdr,
-        "month_days":    month_days,
-        "MONTH_ABBREVS": MONTH_ABBREVS,
+    # 5) Compute start/end of this month
+    first_day = date(year, month, 1)
+    last_day  = date(year, month, calendar.monthrange(year, month)[1])
+
+    # 6) Fetch all user-created events overlapping this month
+    qs = Event.objects.filter(
+        user=request.user,
+        start_date__lte=last_day,
+        end_date__gte=first_day,
+    )
+
+    # 7) Paint each event on every day it covers
+    events_by_day = {}
+    for ev in qs:
+        ev_end = ev.end_date or ev.start_date
+        start  = max(ev.start_date, first_day)
+        end    = min(ev_end, last_day)
+        cur    = start
+        while cur <= end:
+            events_by_day.setdefault(cur.day, []).append(ev)
+            cur += timedelta(days=1)
+
+    # 8) Inject U.S. federal holidays
+    us_hols = holidays.UnitedStates(years=year)
+    for hol_date, hol_name in us_hols.items():
+        if hol_date.month == month:
+            placeholder = SimpleNamespace(
+                id=None,
+                title=hol_name,
+                description='',
+                all_day=True,
+                start_date=hol_date,
+                start_time=None,
+                end_date=None,
+                end_time=None,
+            )
+            events_by_day.setdefault(hol_date.day, []).append(placeholder)
+
+    # ── extra "commercial" holidays ────────────────────────────────
+    custom = {}
+    custom[date(year, 2, 14)] = "Valentine's Day"
+    custom[date(year, 3, 17)] = "St. Patrick's Day"
+    custom[date(year, 4, 1)]  = "April Fool's Day"
+    custom[date(year,10,31)]  = "Halloween"
+    custom[date(year,12,24)]  = "Christmas Eve"
+    custom[date(year,12,31)]  = "New Year's Eve"
+
+    # Mother's Day = 2nd Sunday in May, Father's Day = 3rd Sunday in June
+    mday = nth_weekday_of_month(year, 5, 6, 2)
+    fday = nth_weekday_of_month(year, 6, 6, 3)
+    if mday: custom[mday] = "Mother's Day"
+    if fday: custom[fday] = "Father's Day"
+
+    for hol_date, hol_name in custom.items():
+        if hol_date.month == month:
+            placeholder = SimpleNamespace(
+                id=None,
+                title=hol_name,
+                description='',
+                all_day=True,
+                start_date=hol_date,
+                start_time=None,
+                end_date=None,
+                end_time=None,
+            )
+            events_by_day.setdefault(hol_date.day, []).append(placeholder)
+
+    # 9) Month abbreviations
+    MONTH_ABBREVS = ["Jan","Feb","Mar","Apr","May","Jun",
+                     "Jul","Aug","Sep","Oct","Nov","Dec"]
+
+    return render(request, 'home.html', {
+        'form':          form,
+        'year':          year,
+        'month':         month,
+        'month_name':    month_name,
+        'weekday_hdr':   weekday_hdr,
+        'month_days':    month_days,
+        'events_by_day': events_by_day,
+        'MONTH_ABBREVS': MONTH_ABBREVS,
     })
+
+
 
 def signup(request):
     if request.method == "POST":
@@ -231,38 +301,6 @@ def dashboard(request):
     })
 
 
-# from django.shortcuts import render
-# from .forms import CalendarForm
-
-# def calendar_lookup(request):
-#     result = None
-#     if request.method == 'POST':
-#         form = CalendarForm(request.POST)
-#         if form.is_valid():
-#             cm = form.save()
-#             result = {
-#                 'month': cm.month_name,
-#                 'year':  cm.year,
-#                 'weekday': cm.weekday_name,
-#             }
-#     else:
-#         form = CalendarForm()
-
-#     return render(request, 'Sched_App/calendar_lookup.html', {
-#         'form': form,
-#         'result': result
-#     })
-
-
-# Sched_App/views.py
-# import calendar
-# views.py
-# views.py
-
-# views.py
-
-# views.py
-
 import calendar
 from datetime import date
 from django.shortcuts import render
@@ -300,8 +338,88 @@ def calendar_lookup(request):
     })
 
 
+# Sched_App/views.py
+
+# Sched_App/views.py
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .forms import EventForm
+
+@login_required
+def create_event(request):
+    # pre-fill date if clicked from calendar
+    date_str = request.GET.get('date')
+    initial  = {}
+    if date_str:
+        initial['start_date'] = date_str
+        initial['end_date']   = date_str
+
+    if request.method == 'POST':
+        # make a mutable copy of POST so we can inject the start/end dates for all-day
+        data = request.POST.copy()
+        if data.get('all_day'):
+            sd = data.get('single_date')
+            data['start_date'] = sd
+            data['end_date']   = sd
+            # clear times (the form fields are blankable anyway)
+            data['start_time'] = ''
+            data['end_time']   = ''
+
+        form = EventForm(data)
+        if form.is_valid():
+            ev = form.save(commit=False)
+            ev.user = request.user
+            ev.save()
+            return redirect('home-page')
+    else:
+        form = EventForm(initial=initial)
+
+    return render(request, 'create_event.html', {'form': form})
+
+from django.shortcuts import get_object_or_404
+from .forms import EventForm
+
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import EventForm
+
+@login_required
+def edit_event(request, pk):
+    ev = get_object_or_404(Event, pk=pk, user=request.user)
+
+    if request.method == 'POST':
+        # copy POST so we can massage the data
+        data = request.POST.copy()
+        if data.get('all_day'):
+            # if it's all day, use the single_date field for both start & end
+            sd = data.get('single_date')
+            data['start_date'] = sd
+            data['end_date']   = sd
+            # clear out times (form allows blank)
+            data['start_time'] = ''
+            data['end_time']   = ''
+
+        form = EventForm(data, instance=ev)
+        if form.is_valid():
+            form.save()
+            return redirect('home-page')
+    else:
+        form = EventForm(instance=ev)
+
+    return render(request, 'edit_event.html', {
+        'form': form,
+        'event': ev
+    })
 
 
+@login_required
+def delete_event(request, pk):
+    ev = get_object_or_404(Event, pk=pk, user=request.user)
+    if request.method == 'POST':
+        ev.delete()
+        return redirect('home-page')
+    return render(request, 'delete_event.html', {'event': ev})
 
 
 def password_reset_done(request):
