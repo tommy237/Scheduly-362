@@ -15,10 +15,12 @@ import calendar
 from datetime import datetime
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.conf import settings
+from django.urls import reverse # This is used to reverse the url for password reset to ensure it is correct.
 
 User = get_user_model()
 from django.shortcuts import render, redirect
-from .forms import CustomUserForm
+from .forms import CustomUserForm, PasswordResetRequestForm
+from .models import CustomUser
 
 def makePage(request, template_name, context=None):
     if context is None:
@@ -240,33 +242,42 @@ def password_reset_request(request):
     print("🏁 GOT HERE → password_reset_request:", request.method, request.path)
 
     if request.method == 'POST':
-        email = request.POST.get['email']
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            messages.error(request, "Email not found.")
-            return redirect('password_reset')
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = CustomUser.objects.get(email=email)
+                
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
+                reset_path = reverse('password_reset_confirm', kwargs={
+                    'uidb64': uid,
+                    'token': token,
+                })
+                reset_url = request.build_absolute_uri(reset_path)
 
-        subject = "Password Reset"
-        message = render_to_string('password_reset_email.html', {
-            'user': user,
-            'uid': uid,
-            'token': token,
-            'domain': get_current_site(request).domain,
-        })
+                subject = "Password Reset"
+                message = render_to_string('password_reset_email.html', {
+                    'user': user,
+                    'reset_url': reset_url,
+                })
 
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-        return render(request, 'password_reset_done.html')
+                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+                return render(request, 'password_reset_done.html')
 
-    return render(request, 'password_reset_request.html')
+            except CustomUser.DoesNotExist:
+                messages.error(request, "Email not found.")
+                return redirect('password_reset')
+    else:
+        form = PasswordResetRequestForm()
+
+    return render(request, 'password_reset_request.html', {'form': form})
 
 def password_reset_confirm(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = get_user_model().objects.get(pk=uid)
+        user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
@@ -274,9 +285,10 @@ def password_reset_confirm(request, uidb64, token):
         if request.method == 'POST':
             form = SetPasswordForm(user, request.POST)
             if form.is_valid():
-                form.save()
-                messages.success(request, "Your password has been reset successfully.")
-                return redirect('login')
+                form.save()  # Save the new password
+                return redirect('password_reset_complete')  # Redirect to the password reset complete page
+            else:
+                print("⚠️ Form errors:", form.errors)
         else:
             form = SetPasswordForm(user)
         return render(request, 'password_reset_confirm.html', {'form': form})
