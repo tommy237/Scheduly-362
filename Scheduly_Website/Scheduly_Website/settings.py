@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -142,16 +141,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email backend for dev – change to SMTP for production
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'nguyensean091@gmail.com'  # Replace with your email
-EMAIL_HOST_PASSWORD = 'sbag aiou fvyz hbnn'  # Or an app-specific password if you're using 2FA
-DEFAULT_FROM_EMAIL = 'Scheduly Support <nguyensean091@gmail.com>'
+EMAIL_HOST='smtp.mailgun.org'
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER='postmaster@sandboxfad6bb06d7bb49bda428b4b5a98c06f4.mailgun.org'
+EMAIL_HOST_PASSWORD='146613c19aafdc0201e3507de4b567a6-67bd41c2-f0bd4b5d'
+DEFAULT_FROM_EMAIL='Scheduly <noreply@realscheduly.com>'
 
-# Note: You need to set up an App Password in your Google account settings
-# to use this with Gmail. See: https://support.google.com/accounts/answer/185201
 # Static files (CSS, JavaScript, Images)
 
 # Auth redirect URLs
