@@ -1,141 +1,126 @@
-/* calendar_format.css */
-
-/* Page header “Scheduly” */
-.page-header h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+/* ------------ calendar, month & year selectors -------------*/
+.month-selector-wrapper {
+    position: relative; display: inline-block;
   }
-  
-  /* Form styling */
-  .calendar-form {
-    margin-bottom: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-  }
-  
-  /* Enlarge form controls */
-  .calendar-form label,
-  .calendar-form select,
-  .calendar-form input,
-  .calendar-form button {
-    font-size: 1.25rem;
-  }
-  
-  /* Month/Year title */
-  .calendar-title {
-    font-size: 2rem;
-    margin: 1.5rem 0 1rem;
-    font-weight: bold;
-  }
-  
-  /* Month-picker pop-up (hidden until toggled) */
   .month-grid {
+    display: none;
     position: absolute;
     top: 100%; left: 0;
-    margin-top: 0.25rem;
-    background: #fff;
+    background: rgb(255, 255, 255);
     border: 1px solid #ccc;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     padding: 0.5rem;
-    z-index: 10;
-  
-    display: none;                  /* hide until clicked */
     grid-template-columns: repeat(3, 1fr);
+    display: none;
     gap: 0.25rem;
   }
-  
-  /* show when toggled via JS */
   .month-grid.visible {
     display: grid;
   }
-  
-  /* individual month buttons */
   .month-cell {
     padding: 0.5rem;
     text-align: center;
     cursor: pointer;
-    border-radius: 4px;
   }
   .month-cell:hover {
-    background-color: #f0f0f0;
+    background: #f0f0f0;
   }
-  
-  /* Calendar table */
+  .year-selector-wrapper button {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
   .calendar-container {
-    width: 100%;
-    max-width: none;
-    margin: 0;
+    margin-top: 1rem;
   }
   .calendar-table {
-    table-layout: fixed;
     width: 100%;
+    border-collapse: collapse;
   }
-  .calendar-table thead th {
-    border: 1px solid #ccc;
-    padding: 0.75rem;
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-  .calendar-table tbody td {
-    border: 1px solid #ccc;
-    padding: 0.75rem;
-    min-height: 250px;
-    height: 250px;
+  .calendar-table th,
+  .calendar-table td {
+    border: 1px solid #000000;
+    text-align: center;
     vertical-align: top;
   }
-  
-  /* Day number styling */
-  .day-number {
-    font-size: 1.25rem;
+  .calendar-table th {
+    background: #f9f9f9;
     font-weight: bold;
-    margin-bottom: 0.5rem;
+  }
+  .calendar-table td {
+    height: 4rem;    /* taller numeric-day cells */
+    width: 14%;      /* roughly divide 7 across */
+  }
+  .day-number {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+  .event {
+    font-size: 0.85rem;
+    margin: 0.15rem 0;
+    background: #e3f2fd;
+    padding: 0.15rem;
+    border-radius: 4px;
   }
   
-  /* Event block styling */
-  .event {
+  /* ----------- floating add-event button ------------ */
+  .add-event-btn {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    font-size: 2rem;
+    line-height: 3rem;
+    text-align: center;
+    background: #0033ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  .add-event-btn:hover {
+    background: #0056b3;
+  }
+  
+  /* ------------- modal styles -------------- */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+  }
+  .modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 1rem;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 8px;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
     display: block;
     margin-bottom: 0.25rem;
-    font-size: 0.9rem;
-    max-height: calc(100% - 2rem);
-    overflow-y: auto;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.4rem;
+    box-sizing: border-box;
   }
   
-  /* Alternate row shading */
-  .calendar-table tbody tr:nth-child(odd) td {
-    background-color: #fafafa;
-  }
-  .calendar-table td:empty {
-    background-color: #fff;
-  }
-  
-  /* Responsive tweaks */
-  @media (max-width: 600px) {
-    .calendar-form {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .calendar-form label,
-    .calendar-form select,
-    .calendar-form input,
-    .calendar-form button {
-      font-size: 1rem;
-    }
-    .calendar-title {
-      font-size: 1.5rem;
-    }
-    .calendar-table thead th {
-      font-size: 0.8rem;
-    }
-    .calendar-table tbody td {
-      min-height: 150px;
-      height: 150px;
-      font-size: 0.8rem;
-    }
-    .month-cell {
-      padding: 0.25rem;
-      font-size: 0.9rem;
-    }
-  }
   
