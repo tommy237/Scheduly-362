@@ -239,7 +239,7 @@ def signup(request):
 from django.contrib.auth.forms import PasswordResetForm
 
 def pswr_request(request):
-    print("🏁 GOT HERE → password_reset_request:", request.method, request.path)
+    print("🏁 GOT HERE → pswr_request:", request.method, request.path)
 
     if request.method == 'POST':
         form = PasswordResetRequestForm(request.POST)
@@ -251,7 +251,7 @@ def pswr_request(request):
                 token = default_token_generator.make_token(user)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-                reset_path = reverse('password_reset_confirm', kwargs={
+                reset_path = reverse('pswr-confirm', kwargs={
                     'uidb64': uid,
                     'token': token,
                 })
@@ -267,7 +267,7 @@ def pswr_request(request):
                 return render(request, 'pswr_done.html')
             except CustomUser.DoesNotExist:
                 messages.error(request, "Email not found.")
-                return redirect('password_reset')
+                return redirect('pswr-setup')
     else:
         form = PasswordResetRequestForm()
         
@@ -285,7 +285,7 @@ def pswr_confirm(request, uidb64, token):
             form = SetPasswordForm(user, request.POST)
             if form.is_valid():
                 form.save()  # Save the new password
-                return redirect('password_reset_complete')  # Redirect to the password reset complete page
+                return redirect('pswr-done')  # Redirect to the password reset complete page
             else:
                 print("⚠️ Form errors:", form.errors)
         else:
@@ -293,7 +293,7 @@ def pswr_confirm(request, uidb64, token):
         return render(request, 'pswr_confirm.html', {'form': form})
     else:
         messages.error(request, "The reset link is invalid or has expired.")
-        return redirect('password_reset')
+        return redirect('pswr-setup')
 
 def signout(request):
     logout(request)
