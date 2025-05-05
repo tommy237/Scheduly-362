@@ -92,8 +92,8 @@ def home(request):
     if request.method == 'POST':
         year  = int(request.POST['year'])
         month = int(request.POST['month'])
-        delta = int(request.POST.get('delta', 0))
-        year += delta
+        # delta = int(request.POST.get('delta', 0))
+        # year += delta
     else:
         today = date.today()
         year, month = today.year, today.month
@@ -238,7 +238,7 @@ def signup(request):
 
 from django.contrib.auth.forms import PasswordResetForm
 
-def password_reset_request(request):
+def pswr_request(request):
     print("🏁 GOT HERE → password_reset_request:", request.method, request.path)
 
     if request.method == 'POST':
@@ -258,23 +258,22 @@ def password_reset_request(request):
                 reset_url = request.build_absolute_uri(reset_path)
 
                 subject = "Password Reset"
-                message = render_to_string('password_reset_email.html', {
+                message = render_to_string('pswr_email.html', {
                     'user': user,
                     'reset_url': reset_url,
                 })
 
                 send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-                return render(request, 'password_reset_done.html')
-
+                return render(request, 'pswr_done.html')
             except CustomUser.DoesNotExist:
                 messages.error(request, "Email not found.")
                 return redirect('password_reset')
     else:
         form = PasswordResetRequestForm()
+        
+    return render(request, 'pswr_request.html', {'form':form})
 
-    return render(request, 'password_reset_request.html', {'form': form})
-
-def password_reset_confirm(request, uidb64, token):
+def pswr_confirm(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -291,7 +290,7 @@ def password_reset_confirm(request, uidb64, token):
                 print("⚠️ Form errors:", form.errors)
         else:
             form = SetPasswordForm(user)
-        return render(request, 'password_reset_confirm.html', {'form': form})
+        return render(request, 'pswr_confirm.html', {'form': form})
     else:
         messages.error(request, "The reset link is invalid or has expired.")
         return redirect('password_reset')
@@ -434,8 +433,8 @@ def delete_event(request, pk):
     return render(request, 'delete_event.html', {'event': ev})
 
 
-def password_reset_done(request):
-    return render(request, 'password_reset_done.html')
+def pswr_done(request):
+    return render(request, 'pswr_done.html')
 
-def password_reset_complete(request):
-    return render(request, 'password_reset_complete.html')
+def pswr_complete(request):
+    return render(request, 'pswr_complete.html')

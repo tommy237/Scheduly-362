@@ -18,9 +18,9 @@ urlpatterns = [
     path('logout/', views.signout, name='logout'),
    
 # Resetting password urls
-    path('password-reset/', views.password_reset_request, name='password_reset'),
-    path('password-reset-done/', views.password_reset_done, name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', views.password_reset_confirm, name='password_reset_confirm'),
-    path('reset/done/', views.password_reset_complete, name='password_reset_complete'),
+    path('password-reset/', views.pswr_request, name='pswr-setup'),
+    path('password-reset-done/', views.pswr_done, name='pswr-done'),
+    path('reset/<uidb64>/<token>/', views.pswr_confirm, name='pswr-confirm'),
+    path('reset/done/', views.pswr_complete, name='pswr-complete'),
 ]
 

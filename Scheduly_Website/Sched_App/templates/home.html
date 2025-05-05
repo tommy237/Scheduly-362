@@ -2,68 +2,10 @@
 {% extends "base.html" %}
 {% load dict_utils static %}
 
-{% block title %}Scheduly{% endblock %}
+{% block title %}HOME :: Scheduly{% endblock %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'Sched_App/css/calendar_format.css' %}">
-  <style>
-    .event-item { cursor: pointer; color: #2a7ae2; }
-    .event-item:hover { text-decoration: underline; }
-    .modal .modal-content { max-width: 500px; margin: auto; padding: 1em; }
-    .modal-actions button { margin-right: 0.5em; }
-
-    .event-item.holiday {
-      color: #556bc9 !important;                  /* tomato red text */
-      background-color: rgba(255, 162, 136, 0.158) !important;  /* faint red bg */
-      cursor: default !important;                 /* disable pointer */
-      pointer-events: none !important;            /* disable clicks */
-      text-decoration: none !important;
-    }
-
-    /* ─── month/year nav ───────────────────────────────────────── */
-    .nav-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 1em 0;
-      position: relative;
-    }
-    .nav-wrapper button {
-      background: none;
-      border: none;
-      font-size: 1.5em;
-      cursor: pointer;
-      padding: 0 0.5em;
-    }
-    #month-button {
-      font-size: 1.25em;
-      padding: 0.25em 0.75em;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background: white;
-      cursor: pointer;
-    }
-    .month-grid {
-      position: absolute;
-      top: 2.5em;
-      left: 50%;
-      transform: translateX(-50%);
-      display: none;
-      background: white;
-      border: 1px solid #ccc;
-      padding: 0.5em;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5em;
-      z-index: 10;
-    }
-    .month-grid.visible { display: grid; }
-    .month-cell {
-      cursor: pointer;
-      text-align: center;
-      padding: 0.25em;
-    }
-    .month-cell:hover { background: #f0f0f0; }
-  </style>
+  <link rel="stylesheet" href="{% static 'calendar_format.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -76,21 +18,29 @@
     <input type="hidden" name="year"  id="id_year"  value="{{ year }}">
     <input type="hidden" name="month" id="id_month" value="{{ month }}">
 
-    <div class="nav-wrapper">
-      <button type="button" id="prev-btn">&lsaquo;</button>
-      <button type="button" id="month-button">{{ month_name }} {{ year }}</button>
-      <button type="button" id="next-btn">&rsaquo;</button>
-
-      <div id="month-grid" class="month-grid">
-        {% for abbrev in MONTH_ABBREVS %}
-          <div class="month-cell" data-month="{{ forloop.counter }}">{{ abbrev }}</div>
-        {% endfor %}
+    <div class="MONTH_TITLE">
+      {# Year selector arrows #}
+      <button type="submit"class="NOBG"name="delta"value="-1"id="prev-btn">&lsaquo;</button>
+      <div class="month-selector-wrapper">
+        <button type="button"class="NOBG"id="month-button">
+          <span class="GLOWER"style="pointer-events:none;">{{ month_name }}</span>
+        </button>
+        <div id="month-grid" class="month-grid">
+          {% for abbrev in MONTH_ABBREVS %}
+            <div class="month-cell" data-month="{{ forloop.counter }}">
+              {{ abbrev }}
+            </div>
+          {% endfor %}
+        </div>
       </div>
+      &nbsp;
+      &nbsp;
+      <span id="year-display"class="GLOWER">{{ year }}</span>
+      <button type="submit"class="NOBG"name="delta" value="1"id="next-btn">&rsaquo;</button>
     </div>
   </form>
 
   {% if month_days %}
-    <h2 class="calendar-title">{{ month_name }} {{ year }}</h2>
     <div class="calendar-container">
       <table class="calendar-table">
         <thead>
@@ -134,7 +84,7 @@
   <div id="event-modal" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="modal-close">&times;</span>
-      <h2>New Event</h2>
+      <span class="EVENT_HDR">New Event</span>
       <form id="new-event-form" method="post" action="{% url 'create_event' %}">
         {% csrf_token %}
         <div class="form-group">
@@ -145,8 +95,9 @@
           <label for="id_description">Description</label>
           <textarea id="id_description" name="description"></textarea>
         </div>
-        <div class="form-group">
-          <label><input type="checkbox" id="id_all_day_new" name="all_day"> All day</label>
+        <div class="form-group"style="display:inline-flex;">
+          <label for="id_all_day_new">All day?</label>
+          <input type="checkbox" id="id_all_day_new" name="all_day">
         </div>
         <div id="new-single-date" class="form-group">
           <label for="id_single_date">Date</label>
@@ -155,37 +106,69 @@
         <div id="new-range-fields">
           <div class="form-group">
             <label for="id_start_date">Start Date</label>
-            <input type="date" id="id_start_date" name="start_date">
-          </div>
-          <div class="form-group">
-            <label for="id_start_time">Start Time</label>
-            <input type="time" id="id_start_time" name="start_time">
+            <div class="SPLIT">
+              <input type="date" id="id_start_date" name="start_date" 
+                style="border-bottom-right-radius: 0px;">
+              <input type="time" id="id_start_time" name="start_time" 
+                style="border-bottom-left-radius: 0px;">
+            </div>
           </div>
           <div class="form-group">
             <label for="id_end_date">End Date</label>
-            <input type="date" id="id_end_date" name="end_date">
-          </div>
-          <div class="form-group">
-            <label for="id_end_time">End Time</label>
-            <input type="time" id="id_end_time" name="end_time">
+            <div class="SPLIT">
+              <input type="date" id="id_end_date" name="end_date" 
+                style="border-bottom-right-radius: 0px;">
+              <input type="time" id="id_end_time" name="end_time" 
+                style="border-bottom-left-radius: 0px;">
+            </div>
           </div>
         </div>
-        <button type="submit">Save Event</button>
+        <button type="submit"class="BTN_1">
+          <i class="fas fa-save"></i>
+        </button> {#FLOPPY#}
       </form>
     </div>
   </div>
 
   {# Detail / View Modal #}
   <div id="event-detail-modal" class="modal" style="display:none;">
-    <div class="modal-content">
+    <div class="modal-content"style="max-width: 500px;">
       <span class="modal-close-detail">&times;</span>
-      <h2 id="detail-title-display"></h2>
-      <p id="detail-desc-display"></p>
-      <p id="detail-dates-display" style="font-weight:bold;"></p>
+      <span class="EVENT_HDR">Details</span>
+      <div class="group">
+        <p id="detail-title-display"style="font-size:1.85em;"></p>
+        <label>Title</label>
+      </div>
+      <div class="group">
+        <p id="detail-desc-display"></p>
+        <label>Description</label>
+      </div>
+      <div id="all-day-show">
+        <div class="group">
+          <p id="detail-all-day-display"></p>
+        <label>Date</label>
+        </div>
+      </div>
+      <div class="SPLIT"id="no-all-day-show">
+        <div class="group">
+          <p id="detail-start-display"style="border-bottom-right-radius:0px;"></p>
+          <label>From</label>
+        </div>
+        <div class="group">
+          <p id="detail-end-display"style="border-bottom-left-radius:0px;"></p>
+          <label>To</label>
+        </div>
+      </div>
       <div class="modal-actions">
-        <button id="detail-edit-btn">Edit Event</button>
-        <button id="detail-delete-btn">Delete Event</button>
-        <button id="detail-close-btn">Cancel</button>
+        <button id="detail-edit-btn"class="BTN_1 B">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button> {#PENCIL#}
+        <button id="detail-delete-btn"class="BTN_1 B">
+          <i class="fas fa-trash-alt"></i> {#TRASH BIN#}
+        </button> 
+        <button id="detail-close-btn"class="BTN_1 B">
+          &times;
+        </button>
       </div>
     </div>
   </div>
@@ -194,7 +177,7 @@
   <div id="edit-modal" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="modal-close-edit">&times;</span>
-      <h2>Edit Event</h2>
+      <span class="EVENT_HDR">Edit Event</span>
       <form id="edit-event-form" method="post" action="">
         {% csrf_token %}
         <div class="form-group">
@@ -205,8 +188,9 @@
           <label for="edit-desc">Description</label>
           <textarea id="edit-desc" name="description"></textarea>
         </div>
-        <div class="form-group">
-          <label><input type="checkbox" id="edit-all-day" name="all_day"> All day</label>
+        <div class="form-group"style="display:inline-flex;">
+          <label for="edit-all-day">All day?</label>
+          <input type="checkbox" id="edit-all-day" name="all_day">
         </div>
         <div id="edit-single-date" class="form-group">
           <label for="edit-single-date-input">Date</label>
@@ -215,195 +199,203 @@
         <div id="edit-range-fields">
           <div class="form-group">
             <label for="edit-start-date">Start Date</label>
-            <input type="date" id="edit-start-date" name="start_date">
-          </div>
-          <div class="form-group">
-            <label for="edit-start-time">Start Time</label>
-            <input type="time" id="edit-start-time" name="start_time">
+            <div class="SPLIT">
+              <input type="date" id="edit-start-date" name="start_date" 
+                style="border-bottom-right-radius: 0px;">
+              <input type="time" id="edit-start-time" name="start_time" 
+                style="border-bottom-left-radius: 0px;">
+            </div>
           </div>
           <div class="form-group">
             <label for="edit-end-date">End Date</label>
-            <input type="date" id="edit-end-date" name="end_date">
-          </div>
-          <div class="form-group">
-            <label for="edit-end-time">End Time</label>
-            <input type="time" id="edit-end-time" name="end_time">
+            <div class="SPLIT">
+              <input type="date" id="edit-end-date" name="end_date" 
+                style="border-bottom-right-radius: 0px;">
+              <input type="time" id="edit-end-time" name="end_time" 
+                style="border-bottom-left-radius: 0px;">
+            </div>
           </div>
         </div>
-        <button type="submit">Save Changes</button>
+        <button type="submit"class="BTN_1">
+          <i class="fas fa-save"></i>
+        </button> {#FLOPPY#}
       </form>
     </div>
   </div>
 {% endblock %}
 
 {% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // ─── month‐picker ─────────────────────────────────────────────
-  const monthBtn   = document.getElementById('month-button');
-  const monthGrid  = document.getElementById('month-grid');
-  const monthInput = document.getElementById('id_month');
-  const yearInput  = document.getElementById('id_year');
-  const form       = document.getElementById('calendar-form');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ─── month‐picker ─────────────────────────────────────────────
+      const monthBtn   = document.getElementById('month-button');
+      const monthGrid  = document.getElementById('month-grid');
+      const monthInput = document.getElementById('id_month');
+      const yearInput  = document.getElementById('id_year');
+      const form       = document.getElementById('calendar-form');
 
-  monthBtn.addEventListener('click', () => monthGrid.classList.toggle('visible'));
-  monthGrid.addEventListener('click', e => {
-    const cell = e.target.closest('.month-cell');
-    if (!cell) return;
-    monthInput.value     = cell.dataset.month;
-    monthBtn.textContent = cell.textContent + ' ' + yearInput.value;
-    monthGrid.classList.remove('visible');
-    form.submit();
-  });
-  document.addEventListener('click', e => {
-    if (!monthGrid.contains(e.target) && e.target !== monthBtn) {
-      monthGrid.classList.remove('visible');
-    }
-  });
+      monthBtn.addEventListener('click', () => monthGrid.classList.toggle('visible'));
+      monthGrid.addEventListener('click', e => {
+        const cell = e.target.closest('.month-cell');
+        if (!cell) return;
+        monthInput.value     = cell.dataset.month;
+        //monthBtn.textContent = cell.textContent + ' ' + yearInput.value;
+        monthGrid.classList.remove('visible');
+        form.submit();
+      });
+      document.addEventListener('click', e => {
+        if (!monthGrid.contains(e.target) && e.target !== monthBtn) {
+          monthGrid.classList.remove('visible');
+        }
+      });
 
-  // ←── month/year navigation ──→
-  const prevBtn = document.getElementById('prev-btn'),
-        nextBtn = document.getElementById('next-btn');
+      // ←── month/year navigation ──→
+      const prevBtn = document.getElementById('prev-btn'),
+            nextBtn = document.getElementById('next-btn');
 
-  prevBtn.addEventListener('click', () => {
-    let m = parseInt(monthInput.value, 10),
-        y = parseInt(yearInput.value, 10);
-    if (m === 1) { m = 12; y -= 1; }
-    else          { m -= 1; }
-    monthInput.value = m;
-    yearInput.value  = y;
-    form.submit();
-  });
+      function moveMonth(bool) {
+        let incr = bool == true ? 1 : -1;
+        let m = parseInt(monthInput.value, 10),
+            y = parseInt(yearInput.value, 10);
+        if (m === 1)       { m = 12; y -= 1; }
+        else if (m === 12) { m = 1; y += 1;}
+        else               { m += incr; }
+        monthInput.value = m;
+        yearInput.value  = y;
+        form.submit();}
+      prevBtn.addEventListener('click', () => moveMonth(false));
+      nextBtn.addEventListener('click', () => moveMonth(true));
 
-  nextBtn.addEventListener('click', () => {
-    let m = parseInt(monthInput.value, 10),
-        y = parseInt(yearInput.value, 10);
-    if (m === 12) { m = 1; y += 1; }
-    else           { m += 1; }
-    monthInput.value = m;
-    yearInput.value  = y;
-    form.submit();
-  });
+      // ─── new-event modal ───────────────────────────────────────────
+      const newModal    = document.getElementById('event-modal');
+      const openNewBtn  = document.getElementById('add-event-btn');
+      const closeNewBtn = document.querySelector('.modal-close');
+      const newAllDay   = document.getElementById('id_all_day_new');
+      const singleNew   = document.getElementById('new-single-date');
+      const rangeNew    = document.getElementById('new-range-fields');
 
-  // ─── new-event modal ───────────────────────────────────────────
-  const newModal    = document.getElementById('event-modal');
-  const openNewBtn  = document.getElementById('add-event-btn');
-  const closeNewBtn = document.querySelector('.modal-close');
-  const newAllDay   = document.getElementById('id_all_day_new');
-  const singleNew   = document.getElementById('new-single-date');
-  const rangeNew    = document.getElementById('new-range-fields');
+      function toggleNewFields() {
+        singleNew.style.display = newAllDay.checked ? '' : 'none';
+        rangeNew.style.display  = newAllDay.checked ? 'none' : '';
+        document.getElementById('id_single_date').required = newAllDay.checked;
+        if (newAllDay.checked) {
+          ['id_start_date','id_end_date','id_start_time','id_end_time']
+            .forEach(id => document.getElementById(id).required = false);
+        } else {
+          ['id_start_date','id_end_date']
+            .forEach(id => document.getElementById(id).required = true);
+        }
+      }
 
-  function toggleNewFields() {
-    if (newAllDay.checked) {
-      singleNew.style.display = '';
-      rangeNew.style.display  = 'none';
-      document.getElementById('id_single_date').required = true;
-      ['id_start_date','id_end_date','id_start_time','id_end_time']
-        .forEach(id => document.getElementById(id).required = false);
-    } else {
-      singleNew.style.display = 'none';
-      rangeNew.style.display  = '';
-      document.getElementById('id_single_date').required = false;
-      ['id_start_date','id_end_date']
-        .forEach(id => document.getElementById(id).required = true);
-    }
-  }
+      openNewBtn.addEventListener('click',  () => newModal.style.display = 'block');
+      closeNewBtn.addEventListener('click', () => newModal.style.display = 'none');
+      window.addEventListener('click', e => { if (e.target === newModal) newModal.style.display = 'none'; });
+      newAllDay.addEventListener('change', toggleNewFields);
+      toggleNewFields();
 
-  openNewBtn.addEventListener('click',  () => newModal.style.display = 'block');
-  closeNewBtn.addEventListener('click', () => newModal.style.display = 'none');
-  window.addEventListener('click', e => { if (e.target === newModal) newModal.style.display = 'none'; });
-  newAllDay.addEventListener('change', toggleNewFields);
-  toggleNewFields();
+      // ─── detail & edit modals ─────────────────────────────────────
+      const detModal     = document.getElementById('event-detail-modal'),
+            closeXDet    = document.querySelector('.modal-close-detail'),
+            closeDetBtn  = document.getElementById('detail-close-btn'),
+            editViewBtn  = document.getElementById('detail-edit-btn'),
+            delViewBtn   = document.getElementById('detail-delete-btn'),
+            titleDisp    = document.getElementById('detail-title-display'),
+            descDisp     = document.getElementById('detail-desc-display'),
 
-  // ─── detail & edit modals ─────────────────────────────────────
-  const detModal     = document.getElementById('event-detail-modal'),
-        closeXDet    = document.querySelector('.modal-close-detail'),
-        closeDetBtn  = document.getElementById('detail-close-btn'),
-        editViewBtn  = document.getElementById('detail-edit-btn'),
-        delViewBtn   = document.getElementById('detail-delete-btn'),
-        titleDisp    = document.getElementById('detail-title-display'),
-        descDisp     = document.getElementById('detail-desc-display'),
-        datesDisp    = document.getElementById('detail-dates-display'),
-        editModal    = document.getElementById('edit-modal'),
-        closeXEdit   = document.querySelector('.modal-close-edit'),
-        editForm     = document.getElementById('edit-event-form'),
-        editAllDay   = document.getElementById('edit-all-day'),
-        singleEdit   = document.getElementById('edit-single-date'),
-        rangeEdit    = document.getElementById('edit-range-fields');
+            //datesDisp    = document.getElementById('detail-dates-display'),
+            t_dateDisp   = document.getElementById('all-day-show'),
+            t_dateDisp2  = document.getElementById('no-all-day-show'),
+            onlyDateDisp = document.getElementById('detail-all-day-display')
+            startDateDisp= document.getElementById('detail-start-display'),
+            endDateDisp  = document.getElementById('detail-end-display'),
 
-  function toggleEditFields() {
-    if (editAllDay.checked) {
-      singleEdit.style.display = '';
-      rangeEdit.style.display  = 'none';
-      document.getElementById('edit-single-date-input').required = true;
-      ['edit-start-date','edit-end-date','edit-start-time','edit-end-time']
-        .forEach(id => document.getElementById(id).required = false);
-    } else {
-      singleEdit.style.display = 'none';
-      rangeEdit.style.display  = '';
-      document.getElementById('edit-single-date-input').required = false;
-      ['edit-start-date','edit-end-date']
-        .forEach(id => document.getElementById(id).required = true);
-    }
-  }
+            editModal    = document.getElementById('edit-modal'),
+            closeXEdit   = document.querySelector('.modal-close-edit'),
+            editForm     = document.getElementById('edit-event-form'),
+            editAllDay   = document.getElementById('edit-all-day'),
+            singleEdit   = document.getElementById('edit-single-date'),
+            rangeEdit    = document.getElementById('edit-range-fields');
 
-  document.querySelectorAll('.event-item').forEach(el => {
-    el.addEventListener('click', () => {
-      const isHoliday = el.dataset.holiday === 'true';
-      const id        = el.dataset.id;
-      const all       = el.dataset.allDay === 'True';
-      const sd        = el.dataset.startDate;
-      const st        = el.dataset.startTime;
-      const ed        = el.dataset.endDate;
-      const et        = el.dataset.endTime;
+      function toggleEditFields() {
+        if (editAllDay.checked) {
+          singleEdit.style.display = '';
+          rangeEdit.style.display  = 'none';
+          document.getElementById('edit-single-date-input').required = true;
+          ['edit-start-date','edit-end-date','edit-start-time','edit-end-time']
+            .forEach(id => document.getElementById(id).required = false);
+        } else {
+          singleEdit.style.display = 'none';
+          rangeEdit.style.display  = '';
+          document.getElementById('edit-single-date-input').required = false;
+          ['edit-start-date','edit-end-date']
+            .forEach(id => document.getElementById(id).required = true);
+        }
+      }
 
-      titleDisp.textContent = el.dataset.title;
-      descDisp.textContent  = el.dataset.desc;
-      datesDisp.textContent = all ? sd : `${sd} ${st} → ${ed} ${et}`;
+      document.querySelectorAll('.event-item').forEach(el => {
+        el.addEventListener('click', () => {
+          const isHoliday = el.dataset.holiday === 'true';
+          const id        = el.dataset.id;
+          const all       = el.dataset.allDay === 'True';
+          const sd        = el.dataset.startDate;
+          const st        = el.dataset.startTime;
+          const ed        = el.dataset.endDate;
+          const et        = el.dataset.endTime;
 
-      // hide edit/delete on holidays
-      editViewBtn.style.display = isHoliday ? 'none' : '';
-      delViewBtn .style.display = isHoliday ? 'none' : '';
+          titleDisp.textContent = el.dataset.title;
+          descDisp.textContent  = el.dataset.desc;
+          //datesDisp.textContent = all ? sd : `${sd} ${st} → ${ed} ${et}`;
 
-      // Edit button
-      editViewBtn.onclick = () => {
-        detModal.style.display = 'none';
-        editForm.action = `{% url 'edit_event' 0 %}`.replace('/0/', `/${id}/`);
-        document.getElementById('edit-title').value             = el.dataset.title;
-        document.getElementById('edit-desc').value              = el.dataset.desc;
-        editAllDay.checked                                     = all;
-        document.getElementById('edit-single-date-input').value = sd;
-        document.getElementById('edit-start-date').value       = sd;
-        document.getElementById('edit-start-time').value       = st;
-        document.getElementById('edit-end-date').value         = ed;
-        document.getElementById('edit-end-time').value         = et;
-        editAllDay.onchange = toggleEditFields;
-        toggleEditFields();
-        editModal.style.display = 'block';
-      };
+          t_dateDisp.style.display = all ? '' : 'none';
+          t_dateDisp2.style.display = all ? 'none' : '';
+          if (all) {
+            onlyDateDisp.textContent = sd;
+          } else {
+            startDateDisp.textContent = `${sd} ${st}`;
+            endDateDisp.textContent = `${ed} ${et}`;
+          }
 
-      // Delete button
-      delViewBtn.onclick = () => {
-        if (!confirm('Delete this event?')) return;
-        const csrft = document.querySelector(
-          '#new-event-form input[name="csrfmiddlewaretoken"]'
-        ).value;
-        fetch(
-          `{% url 'delete_event' 0 %}`.replace('/0/', `/${id}/`),
-          { method:'POST', headers:{ 'X-CSRFToken': csrft }, credentials:'same-origin' }
-        ).then(r => r.ok ? location.reload() : alert('Delete failed'));
-      };
+          // hide edit/delete on holidays
+          editViewBtn.style.display = isHoliday ? 'none' : '';
+          delViewBtn .style.display = isHoliday ? 'none' : '';
 
-      detModal.style.display = 'block';
+          // Edit button
+          editViewBtn.onclick = () => {
+            detModal.style.display = 'none';
+            editForm.action = `{% url 'edit_event' 0 %}`.replace('/0/', `/${id}/`);
+            document.getElementById('edit-title').value             = el.dataset.title;
+            document.getElementById('edit-desc').value              = el.dataset.desc;
+            editAllDay.checked                                     = all;
+            document.getElementById('edit-single-date-input').value = sd;
+            document.getElementById('edit-start-date').value       = sd;
+            document.getElementById('edit-start-time').value       = st;
+            document.getElementById('edit-end-date').value         = ed;
+            document.getElementById('edit-end-time').value         = et;
+            editAllDay.onchange = toggleEditFields;
+            toggleEditFields();
+            editModal.style.display = 'block';
+          };
+
+          // Delete button
+          delViewBtn.onclick = () => {
+            if (!confirm('Delete this event?')) return;
+            const csrft = document.querySelector('#new-event-form input[name="csrfmiddlewaretoken"]').value;
+            fetch(
+              `{% url 'delete_event' 0 %}`.replace('/0/', `/${id}/`),
+              { method:'POST', headers:{ 'X-CSRFToken': csrft }, credentials:'same-origin' }
+            ).then(r => r.ok ? location.reload() : alert('Delete failed'));
+          };
+
+          detModal.style.display = 'block';
+        });
+      });
+
+      [closeXDet, closeDetBtn].forEach(el => el.onclick = _ => detModal.style.display='none');
+      closeXEdit.onclick = _ => editModal.style.display='none';
+      window.addEventListener('click', e => {
+        if (e.target === detModal)  detModal .style.display='none';
+        if (e.target === editModal) editModal.style.display='none';
+      });
     });
-  });
-
-  [closeXDet, closeDetBtn].forEach(el => el.onclick = _ => detModal.style.display='none');
-  closeXEdit.onclick = _ => editModal.style.display='none';
-  window.addEventListener('click', e => {
-    if (e.target === detModal)  detModal .style.display='none';
-    if (e.target === editModal) editModal.style.display='none';
-  });
-});
-</script>
+  </script>
 {% endblock %}
