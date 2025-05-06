@@ -20,7 +20,7 @@ urlpatterns = [
 # Resetting password urls
     path('password-reset/', views.pswr_request, name='pswr-setup'),
     path('password-reset-done/', views.pswr_done, name='pswr-done'),
-    path('reset/<uidb64>/<token>/', views.pswr_confirm, name='pswr-confirm'),
-    path('reset/done/', views.pswr_complete, name='pswr-complete'),
+    path('password-reset/<uidb64>/<token>/', views.pswr_confirm, name='pswr-confirm'),
+    path('password-reset-complete/', views.pswr_complete, name='pswr-complete'),
 ]
 

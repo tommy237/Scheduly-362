@@ -285,7 +285,7 @@ def pswr_confirm(request, uidb64, token):
             form = SetPasswordForm(user, request.POST)
             if form.is_valid():
                 form.save()  # Save the new password
-                return redirect('pswr-done')  # Redirect to the password reset complete page
+                return redirect('pswr-complete')  # Redirect to the password reset complete page
             else:
                 print("⚠️ Form errors:", form.errors)
         else:
