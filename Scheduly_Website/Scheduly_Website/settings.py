@@ -147,7 +147,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'nguyensean091@gmail.com'  # Replace with your email
-EMAIL_HOST_PASSWORD = 'sbag aiou fvyz hbnn'  # Or an app-specific password if you're using 2FA
+EMAIL_HOST_PASSWORD = 'zmcw aphu acqd chnn'  # Or an app-specific password if you're using 2FA
 DEFAULT_FROM_EMAIL = 'Scheduly Support <nguyensean091@gmail.com>'
 
 # Note: You need to set up an App Password in your Google account settings
