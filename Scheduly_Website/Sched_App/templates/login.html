@@ -1,4 +1,82 @@
-{% load static %}
+{% extends "base.html" %}
+{% load dict_utils static %}
+
+{% block title %}LOGIN :: Scheduly{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block content %}
+  <header>
+    <nav>
+      <ul class="LINKS">
+        <li><a href="/about">ABOUT</a></li>
+        <li><a href="/about">CONTACT</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      <strong>Message:</strong> {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  {% endfor %}
+
+  <div style="display:flex;align-items:center;justify-content:center;height:70vh;">
+    <div class="CONT"style="padding: 150px 0px;">
+      <div class="TXT_CONT"style="--h:50px">
+        <div class="HDR T1"style="--i:0s">S</div>
+        <div class="HDR T1"style="--i:.05s">I</div>
+        <div class="HDR T1"style="--i:.1s">G</div>
+        <div class="HDR T1"style="--i:.15s">N&nbsp;</div>
+        <div class="HDR T1"style="--i:.2s">I</div>
+        <div class="HDR T1"style="--i:.25s">N</div>
+      </div>
+      <div class="TXT_CONT"style="--h:25px">
+        <div class="HDR T2"style="--i:.3s">FOR&nbsp;</div>
+        <div class="HDR T2"style="--i:.35s">AGENDA&nbsp;</div>
+        <div class="HDR T2"style="--i:.4s">ACCESS</div>
+      </div>
+      <form action="/signin/"
+            method="POST">
+      <!-- <form action="{% url 'login-page' %}" method="POST"> -->
+        {% csrf_token %}
+        <div class="TXT_INPUT"style="--i:.45s">
+          <input type="text"id="Username"name="USERNAME"class="LONG"required>
+          <div class="LBL">Username</div>
+        </div>
+        <div class="TXT_INPUT"style="--i:.5s">
+          <input type="password"id="Password"name="PASSWORD"class="LONG"required>
+          <div class="LBL">Password</div>
+        </div>
+        <div style="padding:20px 0px;font-family:&quot;figtree&quot;;
+        color:white; font-size:12px;letter-spacing:3px;
+        text-shadow:0px 0px 5px rgba(0,0,0,0.95);
+        animation:fadeIn .45s both .525s;">
+          <input type="checkbox"id="AutoSign"name="AUTO_SIGN"class="CHK_BOX"/>
+          <span style="padding:0px ">Remember me for future sign-ins</span>
+        </div>
+        <button type="submit"class="CLICK"style="--i:.55s">LOGIN</button>
+      </form>
+        <div class="SELECTS">
+          <div class="HDR T3" style="--i:.6s">
+            Forgot password?<br>
+            <a class="LINK" href="{% url 'pswr-setup' %}">CLICK HERE</a>
+          </div>
+          <div class="HDR T3" style="--i:.65s">
+            New to this website?<br>
+            <a class="LINK" href="{% url 'signup' %}">CLICK HERE</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
 <!DOCTYPE html>
   <head>
     <meta charset="UTF-8">
@@ -29,7 +107,7 @@
         </nav>
       </header>
 
-      <div class="GRAD_CONT">
+      {% comment %} <div class="GRAD_CONT">
         <svg xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="goo">
@@ -45,7 +123,7 @@
         <div class="GRAD G4"style="--op:0.7"></div>
         <div class="GRAD G5"style="--op:1"></div>
         <div class="GRAD I"style="--op:0.5"></div>
-      </div>
+      </div> {% endcomment %}
 
       {% comment %} <div style="display:flex; align-items:center;
       justify-content:center; height:70vh;
@@ -64,59 +142,11 @@
         </div>
       </div> {% endcomment %}
 
-      <div style="display:flex;align-items:center;justify-content:center;height:70vh;">
-          <div class="CONT"style="padding: 150px 0px;">
-            <div class="TXT_CONT"style="--h:50px">
-              <div class="HDR T1"style="--i:0s">S</div>
-              <div class="HDR T1"style="--i:.05s">I</div>
-              <div class="HDR T1"style="--i:.1s">G</div>
-              <div class="HDR T1"style="--i:.15s">N&nbsp;</div>
-              <div class="HDR T1"style="--i:.2s">I</div>
-              <div class="HDR T1"style="--i:.25s">N</div>
-            </div>
-            <div class="TXT_CONT"style="--h:25px">
-              <div class="HDR T2"style="--i:.3s">FOR&nbsp;</div>
-              <div class="HDR T2"style="--i:.35s">AGENDA&nbsp;</div>
-              <div class="HDR T2"style="--i:.4s">ACCESS</div>
-            </div>
-            <form action="/signin/"
-                  method="POST">
-            <!-- <form action="{% url 'login-page' %}" method="POST"> -->
-              {% csrf_token %}
-              <div class="TXT_INPUT"style="--i:.45s">
-                <input type="text"id="Username"name="USERNAME"class="LONG"required>
-                <div class="LBL">Username</div>
-              </div>
-              <div class="TXT_INPUT"style="--i:.5s">
-                <input type="password"id="Password"name="PASSWORD"class="LONG"required>
-                <div class="LBL">Password</div>
-              </div>
-              <div style="padding:20px 0px;font-family:&quot;figtree&quot;;
-              color:white; font-size:12px;letter-spacing:3px;
-              text-shadow:0px 0px 5px rgba(0,0,0,0.95);
-              animation:fadeIn .45s both .525s;">
-                <input type="checkbox"id="AutoSign"name="AUTO_SIGN"class="CHK_BOX"/>
-                <span style="padding:0px ">Remember me for future sign-ins</span>
-              </div>
-              <button type="submit"class="CLICK"style="--i:.55s">LOGIN</button>
-            </form>
-            <div class="SELECTS">
-              <div class="HDR T3" style="--i:.6s">
-                Forgot password?<br>
-                <a class="LINK" href="{% url 'pswr-setup' %}">CLICK HERE</a>
-              </div>
-              <div class="HDR T3" style="--i:.65s">
-                New to this website?<br>
-                <a class="LINK" href="{% url 'signup' %}">CLICK HERE</a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
+      
 
     {% comment %} <script src="{% static 'home.js' %}"> {% endcomment %}
     <script>
-      const loadr=document.querySelector(".LOAD_CONT");
+      {% comment %} const loadr=document.querySelector(".LOAD_CONT");
       window.onload=()=>{
           setTimeout(function(){
               loadr.style.opacity="0";
@@ -124,8 +154,8 @@
                   loadr.style.display="none";
               },500);
           },5000);
-      }
-      document.addEventListener('DOMContentLoaded',()=>{
+      } {% endcomment %}
+      {% comment %} document.addEventListener('DOMContentLoaded',()=>{
           const bub=document.querySelector(".GRAD.I");
           let cX=0; let cY=0; let tgX=0; let tgY=0;
           function move(){
@@ -135,8 +165,8 @@
           window.addEventListener('mousemove',(event)=>{
               tgX=event.clientX; tgY=event.clientY;});
           move();
-      });
-    </script>
+      }); {% endcomment %}
+    {% comment %} </script>
 
   </body>
-</html>
+</html> {% endcomment %}

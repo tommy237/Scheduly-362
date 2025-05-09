@@ -9,15 +9,31 @@
 {% endblock %}
 
 {% block content %}
-  <header class="page-header">
-    <h1>Scheduly</h1>
+  <header>
+    <nav>
+      <a href="{% url 'home-page' %}">Home</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'login-page' %}">Login</a>
+      {% endif %}
+    </nav>
   </header>
+  
+  {% if user.is_authenticated %}
+    <div class="PROFILER">
+      <div class="PROFILE_ICON">
+        <img src="https://64.media.tumblr.com/11d5a1789734cab51c0c72baf16a1762/tumblr_inline_obt1e3vICf1tr0l0y_400.jpg" alt="" />
+      </div>
+      <p class="PROF_HEADER">Welcome, {{ user.first_name }}.</p>
+      <p class="PROF_SUBT">Here's your planner for this month.</p>
+    </div>
+  {% endif %}
 
   <form method="post" class="calendar-form" id="calendar-form">
     {% csrf_token %}
     <input type="hidden" name="year"  id="id_year"  value="{{ year }}">
     <input type="hidden" name="month" id="id_month" value="{{ month }}">
-
     <div class="MONTH_TITLE">
       {# Year selector arrows #}
       <button type="submit"class="NOBG"name="delta"value="-1"id="prev-btn">&lsaquo;</button>
@@ -44,18 +60,16 @@
     <div class="calendar-container">
       <table class="calendar-table">
         <thead>
-          <tr>{% for wd in weekday_hdr %}<th>{{ wd }}</th>{% endfor %}</tr>
+          <tr>{% for wd in weekday_hdr %}
+            <th>{{ wd }}</th>
+            {% endfor %}</tr>
         </thead>
-        <tbody>
-          {% for week in month_days %}
-            <tr>
-              {% for day in week %}
-                <td>
-                  {% if day %}
+        <tbody> {% for week in month_days %}
+            <tr> {% for day in week %}
+                <td> {% if day %}
                     <div class="day-number">{{ day }}</div>
                     {% for ev in events_by_day|get_item:day %}
-                      <div
-                        class="event-item{% if not ev.id %} holiday{% endif %}"
+                      <div class="event-item{% if not ev.id %} holiday{% endif %}"
                         data-id="{{ ev.id }}"
                         data-holiday="{% if not ev.id %}true{% else %}false{% endif %}"
                         data-title="{{ ev.title|escape }}"
@@ -64,15 +78,13 @@
                         data-start-date="{{ ev.start_date }}"
                         data-start-time="{{ ev.start_time }}"
                         data-end-date="{{ ev.end_date }}"
-                        data-end-time="{{ ev.end_time }}"
-                      >{{ ev.title|escape }}</div>
+                        data-end-time="{{ ev.end_time }}">
+                        {{ ev.title|escape }}
+                      </div>
                     {% endfor %}
-                  {% endif %}
-                </td>
-              {% endfor %}
-            </tr>
-          {% endfor %}
-        </tbody>
+                  {% endif %} </td>
+              {% endfor %} </tr>
+          {% endfor %} </tbody>
       </table>
     </div>
   {% endif %}
